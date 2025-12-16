@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Visa - Thai eVisa Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        .flag {
+            width: 80px;
+            height: 53px;
+            background: linear-gradient(to bottom, #ed1c24 0%, #ed1c24 33.33%, white 33.33%, white 66.66%, #241d4f 66.66%, #241d4f 100%);
+            border-radius: 8px;
+            margin: 0 auto 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .form-container {
+            padding: 40px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: #1a237e;
+            font-weight: 700;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            color: #1a237e;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .form-group label span {
+            color: #e74c3c;
+        }
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .file-upload {
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8f9ff;
+        }
+        .file-upload:hover {
+            background: #e8ecff;
+            border-color: #5568d3;
+        }
+        .file-upload-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        .file-upload-text {
+            color: #666;
+            font-size: 14px;
+        }
+        .file-upload input[type="file"] {
+            display: none;
+        }
+        .uploaded-files {
+            margin-top: 15px;
+        }
+        .uploaded-file {
+            background: #f0f0f0;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .remove-file {
+            color: #e74c3c;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102,126,234,0.4);
+            margin-top: 30px;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102,126,234,0.6);
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #1a237e;
+            text-decoration: none;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 8px;
+            background: #f0f0f0;
+            transition: all 0.3s;
+        }
+        .back-link:hover {
+            background: #e0e0e0;
+        }
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                margin: 0;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="flag"></div>
+            <h1>🇹🇭 Apply for Thai Visa</h1>
+            <p>Complete the form below to submit your visa application</p>
+        </div>
+
+        <div class="form-container">
+            <a href="user-dashboard.html" class="back-link">← Back to Dashboard</a>
+
+            <form id="visaApplicationForm" onsubmit="submitApplication(event)">
+                <div class="section-title">📋 Personal Information</div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name <span>*</span></label>
+                        <input type="text" id="firstName" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name <span>*</span></label>
+                        <input type="text" id="lastName" class="form-input" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dateOfBirth">Date of Birth <span>*</span></label>
+                        <input type="date" id="dateOfBirth" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nationality">Nationality <span>*</span></label>
+                        <select id="nationality" class="form-select" required>
+                            <option value="">Select Country</option>
+                            <option value="Nigerian">Nigerian</option>
+                            <option value="Pakistani">Pakistani</option>
+                            <option value="Indian">Indian</option>
+                            <option value="Chinese">Chinese</option>
+                            <option value="American">American</option>
+                            <option value="British">British</option>
+                            <option value="Ghanaian">Ghanaian</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="passportNumber">Passport Number <span>*</span></label>
+                        <input type="text" id="passportNumber" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="passportExpiry">Passport Expiry Date <span>*</span></label>
+                        <input type="date" id="passportExpiry" class="form-input" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email Address <span>*</span></label>
+                        <input type="email" id="email" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number <span>*</span></label>
+                        <input type="tel" id="phone" class="form-input" required>
+                    </div>
+                </div>
+
+                <div class="section-title">🛂 Visa Details</div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="visaType">Visa Type <span>*</span></label>
+                        <select id="visaType" class="form-select" required>
+                            <option value="">Select Visa Type</option>
+                            <option value="Tourist Visa (TR)">Tourist Visa (TR)</option>
+                            <option value="Business Visa (B)">Business Visa (B)</option>
+                            <option value="Medical Visa (MT)">Medical Visa (MT)</option>
+                            <option value="Student Visa (ED)">Student Visa (ED)</option>
+                            <option value="Transit Visa (TS)">Transit Visa (TS)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="duration">Duration of Stay <span>*</span></label>
+                        <select id="duration" class="form-select" required>
+                            <option value="">Select Duration</option>
+                            <option value="30 Days">30 Days</option>
+                            <option value="60 Days">60 Days</option>
+                            <option value="90 Days">90 Days</option>
+                            <option value="180 Days">180 Days</option>
+                            <option value="365 Days">365 Days</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="arrivalDate">Intended Arrival Date <span>*</span></label>
+                        <input type="date" id="arrivalDate" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="embassy">Apply To <span>*</span></label>
+                        <select id="embassy" class="form-select" required>
+                            <option value="">Select Embassy</option>
+                            <option value="Royal Thai Embassy, Washington DC">Royal Thai Embassy, Washington DC</option>
+                            <option value="Royal Thai Consulate General, Los Angeles">Royal Thai Consulate General, Los Angeles</option>
+                            <option value="Royal Thai Consulate, New York">Royal Thai Consulate, New York</option>
+                            <option value="Royal Thai Embassy, London">Royal Thai Embassy, London</option>
+                            <option value="Royal Thai Embassy, Islamabad">Royal Thai Embassy, Islamabad</option>
+                            <option value="Royal Thai Embassy, Ottawa">Royal Thai Embassy, Ottawa</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="purpose">Purpose of Visit <span>*</span></label>
+                    <textarea id="purpose" class="form-textarea" placeholder="Describe your purpose of visit..." required></textarea>
+                </div>
+
+                <div class="section-title">📄 Document Upload</div>
+
+                <div class="form-group">
+                    <label>Passport Photo <span>*</span></label>
+                    <div class="file-upload" onclick="document.getElementById('passportPhoto').click()">
+                        <div class="file-upload-icon">📷</div>
+                        <div class="file-upload-text">Click to upload passport photo</div>
+                        <input type="file" id="passportPhoto" accept="image/*" onchange="handleFileUpload(event, 'passportPhotoList')">
+                    </div>
+                    <div id="passportPhotoList" class="uploaded-files"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Passport Copy (Bio Page) <span>*</span></label>
+                    <div class="file-upload" onclick="document.getElementById('passportCopy').click()">
+                        <div class="file-upload-icon">📘</div>
+                        <div class="file-upload-text">Click to upload passport copy</div>
+                        <input type="file" id="passportCopy" accept="image/*,application/pdf" onchange="handleFileUpload(event, 'passportCopyList')">
+                    </div>
+                    <div id="passportCopyList" class="uploaded-files"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Flight Booking Confirmation</label>
+                    <div class="file-upload" onclick="document.getElementById('flightBooking').click()">
+                        <div class="file-upload-icon">✈️</div>
+                        <div class="file-upload-text">Click to upload flight booking</div>
+                        <input type="file" id="flightBooking" accept="image/*,application/pdf" onchange="handleFileUpload(event, 'flightBookingList')">
+                    </div>
+                    <div id="flightBookingList" class="uploaded-files"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Hotel Reservation</label>
+                    <div class="file-upload" onclick="document.getElementById('hotelReservation').click()">
+                        <div class="file-upload-icon">🏨</div>
+                        <div class="file-upload-text">Click to upload hotel reservation</div>
+                        <input type="file" id="hotelReservation" accept="image/*,application/pdf" onchange="handleFileUpload(event, 'hotelReservationList')">
+                    </div>
+                    <div id="hotelReservationList" class="uploaded-files"></div>
+                </div>
+
+                <button type="submit" class="btn-submit">📥 Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('⚠️ Please login to apply for visa');
+            window.location.href = 'login.html';
+        }
+
+        // Pre-fill user data if available
+        const userEmail = localStorage.getItem('userEmail');
+        if (userEmail) {
+            document.getElementById('email').value = userEmail;
+            const userData = localStorage.getItem('registeredUser_' + userEmail);
+            if (userData) {
+                const user = JSON.parse(userData);
+                document.getElementById('firstName').value = user.firstName || '';
+                document.getElementById('lastName').value = user.lastName || '';
+                document.getElementById('phone').value = user.phone || '';
+                document.getElementById('nationality').value = user.nationality || '';
+                document.getElementById('passportNumber').value = user.passport || '';
+            }
+        }
+
+        function handleFileUpload(event, listId) {
+            const file = event.target.files[0];
+            if (file) {
+                // Validate file type
+                const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+                if (!allowedTypes.includes(file.type)) {
+                    alert('❌ Invalid File Type!\n\nPlease upload only: JPG, PNG, or PDF files');
+                    event.target.value = '';
+                    return;
+                }
+                
+                // Validate file size (max 5MB)
+                const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+                if (file.size > maxSize) {
+                    alert('❌ File Too Large!\n\nMaximum file size is 5MB.\nYour file: ' + (file.size / 1024 / 1024).toFixed(2) + 'MB');
+                    event.target.value = '';
+                    return;
+                }
+                
+                const listContainer = document.getElementById(listId);
+                listContainer.innerHTML = `
+                    <div class="uploaded-file">
+                        <span>📎 ${file.name} (${(file.size / 1024).toFixed(2)} KB)</span>
+                        <span class="remove-file" onclick="this.parentElement.remove(); document.getElementById('${event.target.id}').value='';">✕ Remove</span>
+                    </div>
+                `;
+            }
+        }
+
+        function submitApplication(event) {
+            event.preventDefault();
+
+            // Validate passport expiry date (must be at least 6 months in future)
+            const passportExpiry = new Date(document.getElementById('passportExpiry').value);
+            const sixMonthsFromNow = new Date();
+            sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6);
+            
+            if (passportExpiry < sixMonthsFromNow) {
+                alert('❌ Validation Error!\n\nYour passport must be valid for at least 6 months from today.\n\nCurrent expiry: ' + passportExpiry.toLocaleDateString() + '\nRequired expiry: ' + sixMonthsFromNow.toLocaleDateString());
+                return;
+            }
+            
+            // Validate arrival date (must be in the future)
+            const arrivalDate = new Date(document.getElementById('arrivalDate').value);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            if (arrivalDate < today) {
+                alert('❌ Validation Error!\n\nArrival date cannot be in the past.');
+                return;
+            }
+            
+            // Validate required documents
+            const passportPhoto = document.getElementById('passportPhoto').files[0];
+            const passportCopy = document.getElementById('passportCopy').files[0];
+            
+            if (!passportPhoto || !passportCopy) {
+                alert('❌ Required Documents Missing!\n\nPlease upload:\n- Passport Photo\n- Passport Copy (Bio Page)');
+                return;
+            }
+            
+            // Validate phone number
+            const phone = document.getElementById('phone').value;
+            const phoneRegex = /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/;
+            if (!phoneRegex.test(phone)) {
+                alert('❌ Validation Error!\n\nPlease enter a valid phone number.');
+                return;
+            }
+
+            // Generate booking number
+            const bookingNumber = 'TH-2025-' + Math.floor(Math.random() * 9000 + 1000);
+
+            // Collect form data
+            const applicationData = {
+                bookingNumber,
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                dateOfBirth: document.getElementById('dateOfBirth').value,
+                nationality: document.getElementById('nationality').value,
+                passportNumber: document.getElementById('passportNumber').value,
+                passportExpiry: document.getElementById('passportExpiry').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                visaType: document.getElementById('visaType').value,
+                duration: document.getElementById('duration').value,
+                arrivalDate: document.getElementById('arrivalDate').value,
+                embassy: document.getElementById('embassy').value,
+                purpose: document.getElementById('purpose').value,
+                status: 'Pending',
+                submissionDate: new Date().toLocaleString(),
+                userEmail: localStorage.getItem('userEmail')
+            };
+
+            // Store application in both formats for compatibility
+            const applications = JSON.parse(localStorage.getItem('visaApplications') || '[]');
+            applications.push(applicationData);
+            localStorage.setItem('visaApplications', JSON.stringify(applications));
+            
+            // Store in user-specific format
+            const userEmail = localStorage.getItem('userEmail');
+            if (userEmail) {
+                const userApplications = JSON.parse(localStorage.getItem('userApplications') || '{}');
+                if (!userApplications[userEmail]) {
+                    userApplications[userEmail] = [];
+                }
+                userApplications[userEmail].push({
+                    bookingNo: bookingNumber,
+                    name: applicationData.firstName + ' ' + applicationData.lastName,
+                    email: applicationData.email,
+                    submitTo: applicationData.embassy,
+                    status: 'pending',
+                    date: new Date().toLocaleDateString(),
+                    nationality: applicationData.nationality,
+                    visaType: applicationData.visaType,
+                    applicants: 1
+                });
+                localStorage.setItem('userApplications', JSON.stringify(userApplications));
+            }
+
+            // Success message
+            alert(`✅ Application Submitted Successfully!\n\nYour Booking Number: ${bookingNumber}\n\nYou will receive a confirmation email shortly.`);
+
+            // Redirect to dashboard
+            window.location.href = 'user-dashboard.html';
+        }
+    </script>
+</body>
+</html>

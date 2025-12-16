@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Booking - Thailand eVisa Portal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .top-bar {
+            background: #1a1a2e;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .flag {
+            width: 50px;
+            height: 35px;
+            background: linear-gradient(to bottom, #ff0000 0%, #ff0000 33%, #ffffff 33%, #ffffff 66%, #0000ff 66%, #0000ff 100%);
+            border-radius: 3px;
+        }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 55px;
+            width: 250px;
+            height: calc(100vh - 55px);
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 0;
+        }
+        .sidebar-menu li {
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+        .sidebar-menu li:hover, .sidebar-menu li.active {
+            background: #f0f0f0;
+            border-left-color: #667eea;
+        }
+        .sidebar-menu li a {
+            color: #333;
+            text-decoration: none;
+            display: block;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .calendar-day:hover {
+            background: #667eea;
+            color: white;
+        }
+        .calendar-day.selected {
+            background: #667eea;
+            color: white;
+        }
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .time-slot {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .time-slot:hover, .time-slot.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            background: #667eea;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="logo-section">
+            <div class="flag"></div>
+            <h2>Thailand eVisa Portal</h2>
+        </div>
+        <div class="nav-links">
+            <a href="user-dashboard.html">Dashboard</a>
+            <a href="user-profile.html">Profile</a>
+            <a href="login.html">Logout</a>
+        </div>
+    </div>
+    <div class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="user-dashboard.html">📊 My Dashboard</a></li>
+            <li><a href="manage-applications.html">📋 Manage Applications</a></li>
+            <li><a href="payment-history.html">💳 Payment History</a></li>
+            <li><a href="document-upload.html">📁 Document Upload</a></li>
+            <li class="active"><a href="appointment-booking.html">📅 Appointment Booking</a></li>
+            <li><a href="track-application.html">🔍 Track Application</a></li>
+            <li><a href="portal-updates.html">📢 Portal Updates</a></li>
+            <li><a href="documents-center.html">📚 Documents Center</a></li>
+            <li><a href="help-center.html">❓ Help Center</a></li>
+            <li><a href="user-profile.html">⚙️ Profile Settings</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="container">
+            <h2>Book Appointment</h2>
+            <p style="margin: 15px 0; color: #666;">Select a date and time for your visa appointment</p>
+            
+            <h3 style="margin-top: 30px;">Select Date</h3>
+            <div class="calendar">
+                <div style="font-weight: bold;">Sun</div>
+                <div style="font-weight: bold;">Mon</div>
+                <div style="font-weight: bold;">Tue</div>
+                <div style="font-weight: bold;">Wed</div>
+                <div style="font-weight: bold;">Thu</div>
+                <div style="font-weight: bold;">Fri</div>
+                <div style="font-weight: bold;">Sat</div>
+                ${Array.from({length: 28}, (_, i) => `<div class="calendar-day" onclick="selectDay(this)">${i + 1}</div>`).join('')}
+            </div>
+
+            <h3 style="margin-top: 30px;">Select Time Slot</h3>
+            <div class="time-slots">
+                <div class="time-slot" onclick="selectTime(this)">09:00 AM</div>
+                <div class="time-slot" onclick="selectTime(this)">10:00 AM</div>
+                <div class="time-slot" onclick="selectTime(this)">11:00 AM</div>
+                <div class="time-slot" onclick="selectTime(this)">01:00 PM</div>
+                <div class="time-slot" onclick="selectTime(this)">02:00 PM</div>
+                <div class="time-slot" onclick="selectTime(this)">03:00 PM</div>
+                <div class="time-slot" onclick="selectTime(this)">04:00 PM</div>
+            </div>
+
+            <button class="btn">Confirm Appointment</button>
+        </div>
+    </div>
+    <script>
+        const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        if (!currentUser) window.location.href = 'login.html';
+
+        function selectDay(el) {
+            document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+        function selectTime(el) {
+            document.querySelectorAll('.time-slot').forEach(t => t.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+    </script>
+</body>
+</html>

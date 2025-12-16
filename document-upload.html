@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Upload - Thailand eVisa Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .top-bar {
+            background: #1a1a2e;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .flag {
+            width: 50px;
+            height: 35px;
+            background: linear-gradient(to bottom, #ff0000 0%, #ff0000 33%, #ffffff 33%, #ffffff 66%, #0000ff 66%, #0000ff 100%);
+            border-radius: 3px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 55px;
+            width: 250px;
+            height: calc(100vh - 55px);
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .sidebar-menu li {
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-menu li:hover, .sidebar-menu li.active {
+            background: #f0f0f0;
+            border-left-color: #667eea;
+        }
+
+        .sidebar-menu li a {
+            color: #333;
+            text-decoration: none;
+            display: block;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .upload-section {
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            background: #f8f9ff;
+        }
+
+        .upload-section:hover {
+            background: #f0f2ff;
+            cursor: pointer;
+        }
+
+        .upload-icon {
+            font-size: 60px;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .document-requirements {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .document-requirements ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .document-requirements li {
+            margin: 8px 0;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            background: #667eea;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+        }
+
+        .uploaded-files {
+            margin-top: 30px;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-remove {
+            background: #dc3545;
+            color: white;
+            padding: 6px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="logo-section">
+            <div class="flag"></div>
+            <h2>Thailand eVisa Portal</h2>
+        </div>
+        <div class="nav-links">
+            <a href="user-dashboard.html">Dashboard</a>
+            <a href="user-profile.html">Profile</a>
+            <a href="login.html">Logout</a>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="user-dashboard.html">📊 My Dashboard</a></li>
+            <li><a href="manage-applications.html">📋 Manage Applications</a></li>
+            <li><a href="payment-history.html">💳 Payment History</a></li>
+            <li class="active"><a href="document-upload.html">📁 Document Upload</a></li>
+            <li><a href="appointment-booking.html">📅 Appointment Booking</a></li>
+            <li><a href="track-application.html">🔍 Track Application</a></li>
+            <li><a href="portal-updates.html">📢 Portal Updates</a></li>
+            <li><a href="documents-center.html">📚 Documents Center</a></li>
+            <li><a href="help-center.html">❓ Help Center</a></li>
+            <li><a href="user-profile.html">⚙️ Profile Settings</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            <h2>Document Upload Center</h2>
+
+            <div class="document-requirements">
+                <h3>📋 Document Requirements</h3>
+                <ul>
+                    <li>Passport bio-data page (must be valid for at least 6 months)</li>
+                    <li>Recent passport-size photograph (white background)</li>
+                    <li>Flight itinerary or confirmed ticket</li>
+                    <li>Hotel reservation or accommodation proof</li>
+                    <li>Bank statement (last 3 months)</li>
+                    <li>Employment letter or business registration</li>
+                    <li>All documents must be in PDF, JPG, or PNG format</li>
+                    <li>Maximum file size: 5MB per document</li>
+                </ul>
+            </div>
+
+            <div class="upload-section" onclick="document.getElementById('fileInput').click()">
+                <div class="upload-icon">📁</div>
+                <h3>Drag & Drop Files Here</h3>
+                <p>or click to browse</p>
+                <input type="file" id="fileInput" style="display: none;" multiple accept=".pdf,.jpg,.jpeg,.png">
+            </div>
+
+            <div class="uploaded-files" id="uploadedFiles">
+                <h3>Uploaded Documents</h3>
+                <p style="color: #666; margin-top: 10px;">No documents uploaded yet</p>
+            </div>
+
+            <button class="btn">Submit Documents</button>
+        </div>
+    </div>
+
+    <script>
+        const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        if (!currentUser) {
+            window.location.href = 'login.html';
+        }
+
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            displayUploadedFiles(files);
+        });
+
+        function displayUploadedFiles(files) {
+            const container = document.getElementById('uploadedFiles');
+            if (files.length > 0) {
+                container.innerHTML = '<h3>Uploaded Documents</h3>';
+                files.forEach((file, index) => {
+                    container.innerHTML += `
+                        <div class="file-item">
+                            <div class="file-info">
+                                <span>📄</span>
+                                <div>
+                                    <strong>${file.name}</strong><br>
+                                    <small>${(file.size / 1024).toFixed(2)} KB</small>
+                                </div>
+                            </div>
+                            <button class="btn-remove" onclick="removeFile(${index})">Remove</button>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        function removeFile(index) {
+            alert('File removed');
+        }
+    </script>
+</body>
+</html>

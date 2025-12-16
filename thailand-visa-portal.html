@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thai eVisa - Official Application Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+        }
+        .top-header {
+            background: white;
+            border-bottom: 2px solid #1a237e;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .top-header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .flag {
+            width: 55px;
+            height: 36px;
+            background: linear-gradient(to bottom, #ed1c24 0%, #ed1c24 33.33%, white 33.33%, white 66.66%, #241d4f 66.66%, #241d4f 100%);
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a237e;
+        }
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #27ae60;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 13px;
+            margin-left: 12px;
+            box-shadow: 0 2px 6px rgba(39,174,96,0.3);
+        }
+        .verified-badge::before {
+            content: "✓";
+            background: white;
+            color: #27ae60;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .top-header-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            color: #666;
+            font-size: 14px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+        .user-info:hover {
+            background: #f0f2f5;
+        }
+        .user-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .main-nav {
+            background: #1a237e;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .nav-links {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 16px 20px;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255,255,255,0.2);
+        }
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #ff6b35;
+        }
+        .apply-btn {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            padding: 12px 26px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 6px rgba(255,107,53,0.3);
+        }
+        .apply-btn:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255,107,53,0.4);
+        }
+        .sidebar-layout {
+            display: flex;
+            gap: 25px;
+            max-width: 1800px;
+            margin: 25px auto;
+            padding: 0 40px;
+        }
+        .sidebar {
+            width: 280px;
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        .sidebar h3 {
+            font-size: 17px;
+            color: #1a237e;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #1a237e;
+        }
+        .sidebar-menu {
+            list-style: none;
+        }
+        .sidebar-menu li {
+            margin-bottom: 6px;
+        }
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            color: #555;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .sidebar-menu a:hover {
+            background: #f0f2f5;
+            color: #1a237e;
+            transform: translateX(5px);
+        }
+        .sidebar-menu a.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(102,126,234,0.3);
+        }
+        .main-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .breadcrumb {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 18px;
+            padding: 12px 18px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .breadcrumb a {
+            color: #1a237e;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        .page-title {
+            font-size: 32px;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .page-subtitle {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+        .dashboard-summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 16px rgba(102,126,234,0.3);
+        }
+        .dashboard-summary h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+        }
+        .summary-stat {
+            display: flex;
+            flex-direction: column;
+        }
+        .summary-stat .number {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .summary-stat .label {
+            font-size: 14px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+        .tab-menu {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #e0e0e0;
+            flex-wrap: wrap;
+            background: white;
+            padding: 15px 20px 0 20px;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .tab {
+            padding: 14px 30px;
+            background: transparent;
+            border: none;
+            border-bottom: 4px solid transparent;
+            color: #666;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            bottom: -3px;
+        }
+        .tab:hover {
+            color: #1a237e;
+            background: #f8f9fa;
+        }
+        .tab.active {
+            color: #1a237e;
+            border-bottom-color: #1a237e;
+        }
+        .search-filter-section {
+            background: white;
+            padding: 22px 25px;
+            border-radius: 0 0 8px 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .search-box {
+            flex: 1;
+            min-width: 280px;
+            position: relative;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 12px 18px 12px 45px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .search-box input:focus {
+            outline: none;
+            border-color: #1a237e;
+            box-shadow: 0 0 0 3px rgba(26,35,126,0.1);
+        }
+        .search-box::before {
+            content: "🔍";
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+        }
+        .filter-dropdown {
+            padding: 12px 18px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .filter-dropdown:focus {
+            outline: none;
+            border-color: #1a237e;
+        }
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .stat-box {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 5px solid #ddd;
+            transition: all 0.3s;
+        }
+        .stat-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+        .stat-box.processing {
+            border-left-color: #f39c12;
+            background: linear-gradient(to right, #fff9f0, white);
+        }
+        .stat-box.finalized {
+            border-left-color: #27ae60;
+            background: linear-gradient(to right, #f0fdf4, white);
+        }
+        .stat-box.cancelled {
+            border-left-color: #e74c3c;
+            background: linear-gradient(to right, #fef2f2, white);
+        }
+        .stat-box.incomplete {
+            border-left-color: #95a5a6;
+            background: linear-gradient(to right, #f8f9fa, white);
+        }
+        .stat-box h3 {
+            font-size: 36px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .stat-box p {
+            color: #666;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+        thead {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+        }
+        th {
+            padding: 18px 22px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        td {
+            padding: 20px 22px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: #333;
+        }
+        tbody tr {
+            transition: all 0.2s;
+        }
+        tbody tr:hover {
+            background: #f8f9fa;
+            transform: scale(1.01);
+        }
+        .booking-number {
+            color: #1a237e;
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .status-processing {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #f39c12;
+        }
+        .status-finalized {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #27ae60;
+        }
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #e74c3c;
+        }
+        .status-incomplete {
+            background: #e2e3e5;
+            color: #383d41;
+            border: 2px solid #95a5a6;
+        }
+        .action-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .action-links a {
+            color: #1a237e;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            background: #f0f2f5;
+        }
+        .action-links a:hover {
+            background: #1a237e;
+            color: white;
+        }
+        .footer {
+            margin-top: 60px;
+            padding: 40px;
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+            text-align: center;
+        }
+        .footer p {
+            font-size: 14px;
+            line-height: 2;
+            margin-bottom: 8px;
+        }
+        
+        @media (max-width: 1024px) {
+            .sidebar-layout {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+            .top-header, .main-nav, .sidebar-layout {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .top-header-right {
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 10px;
+            }
+            .nav-links {
+                width: 100%;
+            }
+            .page-title {
+                font-size: 26px;
+            }
+            .stats-overview {
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            }
+            .tab {
+                padding: 12px 18px;
+                font-size: 13px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .summary-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            .stat-box h3 {
+                font-size: 30px;
+            }
+        }
+        
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: #1a1a2e;
+        }
+        body.dark-mode .top-header,
+        body.dark-mode .main-nav,
+        body.dark-mode .sidebar,
+        body.dark-mode .main-content,
+        body.dark-mode .breadcrumb,
+        body.dark-mode .dashboard-summary,
+        body.dark-mode .tab-menu,
+        body.dark-mode .search-filter-section,
+        body.dark-mode .stat-box,
+        body.dark-mode .table-container,
+        body.dark-mode .footer {
+            background: #16213e;
+            color: #e4e4e4;
+        }
+        body.dark-mode th {
+            background: #0f3460;
+            color: #e4e4e4;
+        }
+        body.dark-mode td {
+            color: #e4e4e4;
+            border-bottom-color: #2d3748;
+        }
+        body.dark-mode tbody tr:hover {
+            background: #1f2937;
+        }
+        body.dark-mode .page-title,
+        body.dark-mode .page-subtitle {
+            color: #e4e4e4;
+        }
+        body.dark-mode .chart-container {
+            background: #16213e;
+        }
+        body.dark-mode .chart-title {
+            color: #27ae60;
+        }
+        body.dark-mode .chart-box {
+            background: #1a2332;
+            border: 2px solid #27ae60;
+        }
+        body.dark-mode .chart-value {
+            color: #27ae60;
+        }
+        body.dark-mode .chart-label {
+            color: #a8d5a8;
+        }
+        body.dark-mode .progress-bar {
+            background: #2d3748;
+        }
+        body.dark-mode .progress-fill {
+            background: linear-gradient(90deg, #27ae60 0%, #2ecc71 100%);
+        }
+        
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+        .dark-mode-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 6px 30px rgba(102,126,234,0.5);
+        }
+        
+        /* Navigation Arrows */
+        .nav-arrow {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            padding: 15px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 14px;
+            color: #1a237e;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+        .nav-arrow:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            background: #667eea;
+            color: white;
+        }
+        .nav-arrow-left {
+            left: 20px;
+        }
+        .nav-arrow-right {
+            right: 20px;
+        }
+        
+        /* Notification Bell */
+        .notification-bell {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: #ff6b35;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255,107,53,0.4);
+            z-index: 1000;
+            animation: bellShake 3s infinite;
+        }
+        @keyframes bellShake {
+            0%, 50%, 100% { transform: rotate(0deg); }
+            10%, 30% { transform: rotate(-15deg); }
+            20%, 40% { transform: rotate(15deg); }
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #e74c3c;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            border: 2px solid white;
+        }
+        
+        /* Notification Panel */
+        .notification-panel {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            width: 380px;
+            max-height: 500px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            z-index: 999;
+            display: none;
+            overflow: hidden;
+        }
+        .notification-panel.active {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .notification-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        .notification-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .notification-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .notification-item:hover {
+            background: #f8f9fa;
+        }
+        .notification-item.unread {
+            background: #e3f2fd;
+        }
+        .notification-title {
+            font-weight: 700;
+            color: #1a237e;
+            margin-bottom: 5px;
+        }
+        .notification-text {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .notification-time {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        /* Chart Container */
+        .chart-container {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .chart-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a237e;
+            margin-bottom: 20px;
+        }
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        .chart-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        .chart-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+        .chart-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a237e;
+            margin-bottom: 8px;
+        }
+        .chart-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 600;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            transition: width 1s ease-out;
+        }
+        
+        /* QR Code Modal */
+        .qr-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+        .qr-modal.active {
+            display: flex;
+        }
+        .qr-content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        .qr-content h2 {
+            font-size: 24px;
+            color: #1a237e;
+            margin-bottom: 20px;
+        }
+        .qr-code {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 20px;
+            padding: 20px;
+            background: white;
+            border: 3px solid #1a237e;
+            border-radius: 10px;
+        }
+        .qr-info {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .qr-close {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .qr-close:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+        }
+        
+        /* Messaging System */
+        .message-button {
+            position: fixed;
+            bottom: 110px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #27ae60;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(39,174,96,0.4);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+        .message-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(39,174,96,0.6);
+        }
+        .message-panel {
+            position: fixed;
+            bottom: 180px;
+            right: 30px;
+            width: 350px;
+            height: 450px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+        }
+        .message-panel.active {
+            display: flex;
+        }
+        .message-header {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            padding: 20px;
+            font-weight: 700;
+            border-radius: 12px 12px 0 0;
+        }
+        .message-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+        }
+        .message-item {
+            background: #f0f0f0;
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            max-width: 80%;
+        }
+        .message-item.sent {
+            background: #667eea;
+            color: white;
+            margin-left: auto;
+        }
+        .message-input-area {
+            border-top: 1px solid #e0e0e0;
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        .message-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .send-button {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        
+        /* Loading Overlay */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .loading-overlay.active {
+            display: flex;
+        }
+        .spinner {
+            width: 80px;
+            height: 80px;
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-text {
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 25px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text">🔄 Loading Visa Preview...</div>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <div class="nav-arrow nav-arrow-left" onclick="window.history.back()" title="Go Back">
+        ← Back
+    </div>
+    <div class="nav-arrow nav-arrow-right" onclick="window.history.forward()" title="Go Forward">
+        Forward →
+    </div>
+
+    <!-- Dark Mode Toggle -->
+    <div class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode">
+        🌙
+    </div>
+
+    <!-- Notification Bell -->
+    <div class="notification-bell" onclick="toggleNotifications()">
+        🔔
+        <span class="notification-badge" id="notificationCount">5</span>
+    </div>
+
+    <!-- Notification Panel -->
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">
+            📢 Notifications
+        </div>
+        <div class="notification-list">
+            <div class="notification-item unread">
+                <div class="notification-title">✅ Visa Approved</div>
+                <div class="notification-text">Application TH-2025-1002 has been approved</div>
+                <div class="notification-time">2 hours ago</div>
+            </div>
+            <div class="notification-item unread">
+                <div class="notification-title">📥 New Application</div>
+                <div class="notification-text">Umar Farooq submitted application TH-2025-1061</div>
+                <div class="notification-time">4 hours ago</div>
+            </div>
+            <div class="notification-item unread">
+                <div class="notification-title">💳 Payment Received</div>
+                <div class="notification-text">Payment confirmed for TH-2025-1001</div>
+                <div class="notification-time">6 hours ago</div>
+            </div>
+            <div class="notification-item">
+                <div class="notification-title">📧 Email Sent</div>
+                <div class="notification-text">Confirmation email sent to Linda Chen</div>
+                <div class="notification-time">8 hours ago</div>
+            </div>
+            <div class="notification-item">
+                <div class="notification-title">🔄 Status Updated</div>
+                <div class="notification-text">Application TH-2025-1007 moved to processing</div>
+                <div class="notification-time">12 hours ago</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Button -->
+    <div class="message-button" onclick="toggleMessages()" title="Messages">
+        💬
+    </div>
+
+    <!-- Message Panel -->
+    <div class="message-panel" id="messagePanel">
+        <div class="message-header">
+            💬 Messages
+        </div>
+        <div class="message-list" id="messageList">
+            <div class="message-item">
+                Hi, I need help with my application
+            </div>
+            <div class="message-item sent">
+                Hello! I'm here to help. What do you need?
+            </div>
+            <div class="message-item">
+                When will my visa be approved?
+            </div>
+        </div>
+        <div class="message-input-area">
+            <input type="text" class="message-input" id="messageInput" placeholder="Type a message..." onkeypress="handleMessageEnter(event)">
+            <button class="send-button" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div class="qr-modal" id="qrModal">
+        <div class="qr-content">
+            <h2>🇹🇭 Application QR Code</h2>
+            <div class="qr-code" id="qrCodeContainer">
+                <svg width="250" height="250" viewBox="0 0 100 100">
+                    <rect width="100" height="100" fill="white"/>
+                    <g fill="#1a237e">
+                        <rect x="10" y="10" width="5" height="5"/>
+                        <rect x="20" y="10" width="5" height="5"/>
+                        <rect x="30" y="10" width="5" height="5"/>
+                        <rect x="10" y="20" width="5" height="5"/>
+                        <rect x="30" y="20" width="5" height="5"/>
+                        <rect x="10" y="30" width="5" height="5"/>
+                        <rect x="20" y="30" width="5" height="5"/>
+                        <rect x="30" y="30" width="5" height="5"/>
+                        <rect x="50" y="10" width="5" height="5"/>
+                        <rect x="60" y="15" width="5" height="5"/>
+                        <rect x="70" y="10" width="5" height="5"/>
+                        <rect x="80" y="15" width="5" height="5"/>
+                        <rect x="65" y="10" width="5" height="5"/>
+                        <rect x="10" y="70" width="5" height="5"/>
+                        <rect x="20" y="70" width="5" height="5"/>
+                        <rect x="30" y="70" width="5" height="5"/>
+                        <rect x="10" y="80" width="5" height="5"/>
+                        <rect x="30" y="80" width="5" height="5"/>
+                        <rect x="10" y="90" width="5" height="5"/>
+                        <rect x="20" y="90" width="5" height="5"/>
+                        <rect x="30" y="90" width="5" height="5"/>
+                        <rect x="70" y="70" width="5" height="5"/>
+                        <rect x="80" y="70" width="5" height="5"/>
+                        <rect x="90" y="70" width="5" height="5"/>
+                        <rect x="70" y="80" width="5" height="5"/>
+                        <rect x="90" y="80" width="5" height="5"/>
+                        <rect x="70" y="90" width="5" height="5"/>
+                        <rect x="80" y="90" width="5" height="5"/>
+                        <rect x="90" y="90" width="5" height="5"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="qr-info" id="qrInfo">
+                Scan this QR code to view application details
+            </div>
+            <button class="qr-close" onclick="closeQRModal()">Close</button>
+        </div>
+    </div>
+
+    <div class="top-header">
+        <div class="top-header-left">
+            <div class="flag"></div>
+            <span class="logo-text">🇹🇭 Thai eVisa Portal</span>
+            <span class="verified-badge">Thailand Verified</span>
+        </div>
+        <div class="top-header-right">
+            <span>📖 User Manual</span>
+            <div class="user-info">
+                <div class="user-avatar">PR</div>
+                <span>Peter Ronzio</span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="main-nav">
+        <div class="nav-links">
+            <a href="#" class="active">🏠 E-Visa Dashboard</a>
+            <a href="#">📋 Thai eVisa (Individual)</a>
+            <a href="#">📢 Portal Updates</a>
+            <a href="#">📁 Document Center</a>
+            <a href="#">❓ Help Center</a>
+        </div>
+        <button class="apply-btn" onclick="alert('🆕 New Visa Application - Feature coming soon!')">+ Apply for New Visa</button>
+    </nav>
+
+    <div class="sidebar-layout">
+        <aside class="sidebar">
+            <h3>⚡ Quick Menu</h3>
+            <ul class="sidebar-menu">
+                <li><a href="admin-dashboard.html">👨‍💼 Admin Dashboard</a></li>
+                <li><a href="#" class="active">🏠 My Dashboard</a></li>
+                <li><a href="#">📋 Manage Applications</a></li>
+                <li><a href="#">💳 Payment History</a></li>
+                <li><a href="#">📤 Document Upload</a></li>
+                <li><a href="#">🔍 Track Application</a></li>
+                <li><a href="#">📅 Appointment Booking</a></li>
+                <li><a href="#">⚙️ Profile Settings</a></li>
+                <li><a href="#">🚪 Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="#">🏠 Home</a> / <a href="#">Dashboard</a> / <span>Manage Applications</span>
+            </div>
+
+            <h1 class="page-title">📋 My Visa Applications</h1>
+            <p class="page-subtitle">Track and manage all your Thailand visa applications in one centralized dashboard</p>
+
+            <div class="dashboard-summary">
+                <h2>📊 Application Summary Overview</h2>
+                <div class="summary-stats">
+                    <div class="summary-stat">
+                        <div class="number" id="totalApps">0</div>
+                        <div class="label">📌 Total Applications</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number" id="inProgress">0</div>
+                        <div class="label">🔄 In Progress</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number" id="completed">0</div>
+                        <div class="label">✓ Completed</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number" id="requiresAction">0</div>
+                        <div class="label">⚠️ Requires Action</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Charts -->
+            <div class="chart-container">
+                <div class="chart-title">📈 Analytics Dashboard</div>
+                <div class="chart-grid">
+                    <div class="chart-box">
+                        <div class="chart-icon">📊</div>
+                        <div class="chart-value">45%</div>
+                        <div class="chart-label">Success Rate</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 45%"></div>
+                        </div>
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-icon">⏱️</div>
+                        <div class="chart-value">3.5 days</div>
+                        <div class="chart-label">Avg Processing Time</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 70%"></div>
+                        </div>
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-icon">💰</div>
+                        <div class="chart-value">$2,800</div>
+                        <div class="chart-label">Total Revenue</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-menu">
+                <button class="tab active" onclick="filterByTab('all')">📋 All Applications (70)</button>
+                <button class="tab" onclick="filterByTab('incomplete')">⚠️ Incomplete (5)</button>
+                <button class="tab" onclick="filterByTab('processing')">🔄 Processing (28)</button>
+                <button class="tab" onclick="filterByTab('finalized')">✅ Finalized (32)</button>
+                <button class="tab" onclick="filterByTab('cancelled')">✕ Cancelled (5)</button>
+            </div>
+
+            <div class="search-filter-section">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search by booking number, applicant name, or embassy..." onkeyup="searchTable()">
+                </div>
+                <select class="filter-dropdown" id="statusFilter" onchange="filterByStatus()">
+                    <option value="all">📊 All Statuses</option>
+                    <option value="processing">🔄 Processing</option>
+                    <option value="finalized">✓ Finalized</option>
+                    <option value="cancelled">✕ Cancelled</option>
+                    <option value="incomplete">⚠️ Incomplete</option>
+                </select>
+            </div>
+
+            <div class="stats-overview">
+                <div class="stat-box processing">
+                    <h3>🔄 28</h3>
+                    <p>Processing</p>
+                </div>
+                <div class="stat-box finalized">
+                    <h3>✅ 32</h3>
+                    <p>Finalized</p>
+                </div>
+                <div class="stat-box cancelled">
+                    <h3>✕ 5</h3>
+                    <p>Cancelled</p>
+                </div>
+                <div class="stat-box incomplete">
+                    <h3>⚠️ 5</h3>
+                    <p>Incomplete</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table id="applicationsTable">
+                    <thead>
+                        <tr>
+                            <th>🇹🇭 Booking Number</th>
+                            <th>🏛️ Submit To</th>
+                            <th>📅 Paid Date & Time</th>
+                            <th>📊 Status</th>
+                            <th>👥 Applicant Details</th>
+                            <th>⚙️ Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-status="processing">
+                            <td class="booking-number">TH-2025-1001</td>
+                            <td>🏛️ Royal Thai Consulate General, Los Angeles</td>
+                            <td>15 Dec 2025, 09:23 AM</td>
+                            <td><span class="status-badge status-processing">🔄 Processing</span></td>
+                            <td>👤 Samuel Okorie, Age: 34<br><small>✉️ samuel.okorie@email.com</small></td>
+                            <td class="action-links">
+                                <a href="#" onclick="viewVisa('TH-2025-1001'); return false;">👁️ View</a>
+                                <a href="#" onclick="downloadReceipt('TH-2025-1001'); return false;">📄 Receipt</a>
+                                <a href="#" onclick="showQRCode('TH-2025-1001', 'Samuel Okorie'); return false;">📱 QR</a>
+                            </td>
+                        </tr>
+                        <tr data-status="finalized">
+                            <td class="booking-number">TH-2025-1002</td>
+                            <td>🏛️ Royal Thai Embassy, Washington DC</td>
+                            <td>14 Dec 2025, 02:45 PM</td>
+                            <td><span class="status-badge status-finalized">✅ Finalized</span></td>
+                            <td>👤 Aisha Bello, Age: 29<br><small>✉️ aisha.bello@email.com</small></td>
+                            <td class="action-links">
+                                <a href="#" onclick="viewVisa('TH-2025-1002'); return false;">👁️ View</a>
+                                <a href="#" onclick="downloadReceipt('TH-2025-1002'); return false;">📄 Receipt</a>
+                                <a href="#" onclick="showQRCode('TH-2025-1002', 'Aisha Bello'); return false;">📱 QR</a>
+                            </td>
+                        </tr>
+                        <tr data-status="processing">
+                            <td class="booking-number">TH-2025-1003</td>
+                            <td>🏛️ Royal Thai Consulate, New York</td>
+                            <td>13 Dec 2025, 11:12 AM</td>
+                            <td><span class="status-badge status-processing">🔄 Processing</span></td>
+                            <td>👤 Musa Abdullahi, Age: 41<br><small>✉️ musa.abdullahi@email.com</small></td>
+                            <td class="action-links">
+                                <a href="#" onclick="viewVisa('TH-2025-1003'); return false;">👁️ View</a>
+                                <a href="#" onclick="downloadReceipt('TH-2025-1003'); return false;">📄 Receipt</a>
+                                <a href="#" onclick="showQRCode('TH-2025-1003', 'Musa Abdullahi'); return false;">📱 QR</a>
+                            </td>
+                        </tr>
+                        <tr data-status="finalized">
+                            <td class="booking-number">TH-2025-1004</td>
+                            <td>🏛️ Royal Thai Consulate General, Los Angeles</td>
+                            <td>12 Dec 2025, 08:34 AM</td>
+                            <td><span class="status-badge status-finalized">✅ Finalized</span></td>
+                            <td>👤 Linda Chen, Age: 38<br><small>✉️ linda.chen@email.com</small></td>
+                            <td class="action-links">
+                                <a href="#" onclick="viewVisa('TH-2025-1004'); return false;">👁️ View</a>
+                                <a href="#" onclick="downloadReceipt('TH-2025-1004'); return false;">📄 Receipt</a>
+                                <a href="#" onclick="showQRCode('TH-2025-1004', 'Linda Chen'); return false;">📱 QR</a>
+                            </td>
+                        </tr>
+                        <tr data-status="cancelled">
+                            <td class="booking-number">TH-2025-1005</td>
+                            <td>🏛️ Royal Thai Embassy, London</td>
+                            <td>11 Dec 2025, 03:21 PM</td>
+                            <td><span class="status-badge status-cancelled">✕ Cancelled</span></td>
+                            <td>👤 Kwame Mensah, Age: 22<br><small>✉️ kwame.mensah@email.com</small></td>
+                            <td class="action-links">
+                                <a href="#" onclick="viewVisa('TH-2025-1005'); return false;">👁️ View</a>
+                                <a href="#" onclick="downloadReceipt('TH-2025-1005'); return false;">📄 Receipt</a>
+                                <a href="#" onclick="showQRCode('TH-2025-1005', 'Kwame Mensah'); return false;">📱 QR</a>
+                            </td>
+                        </tr>
+                        <tr data-status="processing">
+                            <td class="booking-number">TH-2025-1006</td>
+                            <td>🏛️ Royal Thai Consulate, Chicago</td>
+                            <td>10 Dec 2025, 10:45 AM</td>
+                            <td><span class="status-badge status-processing">🔄 Processing</span></td>
+                            <td>👤 Rahim Khan, Age: 45<br><small>✉️ rahim.khan@email.com</small></td>
+                            <td class="action-links">
+                                <a href="#" onclick="viewVisa('TH-2025-1006'); return false;">👁️ View</a>
+                                <a href="#" onclick="downloadReceipt('TH-2025-1006'); return false;">📄 Receipt</a>
+                                <a href="#" onclick="showQRCode('TH-2025-1006', 'Rahim Khan'); return false;">📱 QR</a>
+                            </td>
+                        </tr>
+                        <tr data-status="finalized">
+                            <td class="booking-number">TH-2025-1007</td>
+                            <td>🏛️ Royal Thai Embassy, Ottawa</td>
+                            <td>09 Dec 2025, 01:56 PM</td>
+                            <td><span class="status-badge status-finalized">✅ Finalized</span></td>
+                            <td>👤 John Adeyemi, Age: 31<br><small>✉️ john.adeyemi@email.com</small></td>
+                            <td class="action-links">
+                                <a href="#" onclick="viewVisa('TH-2025-1007'); return false;">👁️ View</a>
+                                <a href="#" onclick="downloadReceipt('TH-2025-1007'); return false;">📄 Receipt</a>
+                                <a href="#" onclick="showQRCode('TH-2025-1007', 'John Adeyemi'); return false;">📱 QR</a>
+                            </td>
+                        </tr>
+                        <tr data-status="processing">
+                            <td class="booking-number">TH-2025-1061</td>
+                            <td>🏛️ Royal Thai Embassy, Islamabad</td>
+                            <td>16 Dec 2025, 02:23 PM</td>
+                            <td><span class="status-badge status-processing">🔄 Processing</span></td>
+                            <td>👤 Umar Farooq, Age: 43<br><small>✉️ umarumarfarooq016@gmail.com</small></td>
+                            <td class="action-links">
+                                <a href="#" onclick="viewVisa('TH-2025-1061'); return false;">👁️ View</a>
+                                <a href="#" onclick="downloadReceipt('TH-2025-1061'); return false;">📄 Receipt</a>
+                                <a href="#" onclick="showQRCode('TH-2025-1061', 'Umar Farooq'); return false;">📱 QR</a>
+                            </td>
+                        </tr>
+                        <!-- Additional 62 rows would follow the same pattern -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <div class="footer">
+        <p><strong>⚠️ IMPORTANT NOTICE:</strong> This is demonstration data for testing and training purposes only.</p>
+        <p>🇹🇭 Royal Thai eVisa Portal © 2025 | Ministry of Foreign Affairs, Kingdom of Thailand</p>
+        <p>🔒 Secure Portal | All Rights Reserved</p>
+    </div>
+
+    <script>
+        function searchTable() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById('applicationsTable');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length; i++) {
+                const row = tr[i];
+                const cells = row.getElementsByTagName('td');
+                let found = false;
+
+                for (let j = 0; j < cells.length; j++) {
+                    const cell = cells[j];
+                    if (cell) {
+                        const txtValue = cell.textContent || cell.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+
+                row.style.display = found ? '' : 'none';
+            }
+        }
+
+        function filterByStatus() {
+            const filter = document.getElementById('statusFilter').value;
+            const table = document.getElementById('applicationsTable');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length; i++) {
+                const row = tr[i];
+                const status = row.getAttribute('data-status');
+
+                if (filter === 'all' || status === filter) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        }
+
+        function filterByTab(status) {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const table = document.getElementById('applicationsTable');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < tr.length; i++) {
+                const row = tr[i];
+                const rowStatus = row.getAttribute('data-status');
+
+                if (status === 'all' || rowStatus === status) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+
+            document.getElementById('statusFilter').value = status;
+        }
+
+        function viewVisa(bookingNumber) {
+            // Show loading overlay
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.classList.add('active');
+
+            // Simulate loading time (1.5 seconds)
+            setTimeout(() => {
+                // Hide loading overlay
+                loadingOverlay.classList.remove('active');
+                
+                // Open visa preview in new window
+                const previewUrl = 'visa-preview.html?booking=' + bookingNumber;
+                window.open(previewUrl, '_blank', 'width=1000,height=800,scrollbars=yes,resizable=yes');
+            }, 1500);
+        }
+
+        function downloadReceipt(bookingNumber) {
+            // Show loading overlay
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const loadingText = loadingOverlay.querySelector('.loading-text');
+            const originalText = loadingText.textContent;
+            
+            loadingText.textContent = '📥 Preparing Receipt Download...';
+            loadingOverlay.classList.add('active');
+
+            // Simulate download preparation (2 seconds)
+            setTimeout(() => {
+                loadingOverlay.classList.remove('active');
+                loadingText.textContent = originalText;
+                
+                alert('📄 Receipt Download\n\nBooking: ' + bookingNumber + '\n\nYour receipt has been downloaded successfully!\n\n(Demo feature - actual download coming soon)');
+            }, 2000);
+        }
+
+        // Dark Mode Toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            document.querySelector('.dark-mode-toggle').textContent = isDark ? '☀️' : '🌙';
+            localStorage.setItem('darkMode', isDark);
+        }
+
+        // Load dark mode preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            document.querySelector('.dark-mode-toggle').textContent = '☀️';
+        }
+
+        // Notification System
+        function toggleNotifications() {
+            const panel = document.getElementById('notificationPanel');
+            panel.classList.toggle('active');
+        }
+
+        // Close notifications when clicking outside
+        document.addEventListener('click', function(event) {
+            const panel = document.getElementById('notificationPanel');
+            const bell = document.querySelector('.notification-bell');
+            if (panel.classList.contains('active') && !panel.contains(event.target) && !bell.contains(event.target)) {
+                panel.classList.remove('active');
+            }
+        });
+
+        // Message System
+        function toggleMessages() {
+            const panel = document.getElementById('messagePanel');
+            panel.classList.toggle('active');
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            if (message) {
+                const messageList = document.getElementById('messageList');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message-item sent';
+                messageDiv.textContent = message;
+                messageList.appendChild(messageDiv);
+                input.value = '';
+                messageList.scrollTop = messageList.scrollHeight;
+            }
+        }
+
+        function handleMessageEnter(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // QR Code System
+        function showQRCode(bookingNumber, applicantName) {
+            const modal = document.getElementById('qrModal');
+            const info = document.getElementById('qrInfo');
+            info.innerHTML = `<strong>Booking: ${bookingNumber}</strong><br>Applicant: ${applicantName}<br>Scan to view full details`;
+            modal.classList.add('active');
+        }
+
+        function closeQRModal() {
+            document.getElementById('qrModal').classList.remove('active');
+        }
+
+        // Close QR modal when clicking outside
+        document.getElementById('qrModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeQRModal();
+            }
+        });
+
+        // Animated Counter
+        function animateCounter(id, target) {
+            const element = document.getElementById(id);
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 30);
+        }
+
+        // Run counter animations on page load
+        window.addEventListener('load', function() {
+            animateCounter('totalApps', 70);
+            animateCounter('inProgress', 28);
+            animateCounter('completed', 32);
+            animateCounter('requiresAction', 5);
+        });
+
+        // Authentication Check
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('⚠️ Please login to access the dashboard');
+            window.location.href = 'login.html';
+        }
+
+        // Display user info
+        const userEmail = localStorage.getItem('userEmail');
+        if (userEmail) {
+            const userName = userEmail.split('@')[0];
+            // You can display this in the header if needed
+        }
+    </script>
+</body>
+</html>

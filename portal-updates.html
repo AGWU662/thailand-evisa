@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Updates - Thailand eVisa Portal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .top-bar { background: #1a1a2e; color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo-section { display: flex; align-items: center; gap: 15px; }
+        .flag { width: 50px; height: 35px; background: linear-gradient(to bottom, #ff0000 0%, #ff0000 33%, #ffffff 33%, #ffffff 66%, #0000ff 66%, #0000ff 100%); border-radius: 3px; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a { color: white; text-decoration: none; padding: 8px 15px; border-radius: 5px; }
+        .sidebar { position: fixed; left: 0; top: 55px; width: 250px; height: calc(100vh - 55px); background: white; box-shadow: 2px 0 10px rgba(0,0,0,0.1); overflow-y: auto; }
+        .sidebar-menu { list-style: none; padding: 20px 0; }
+        .sidebar-menu li { padding: 15px 25px; cursor: pointer; transition: all 0.3s; border-left: 4px solid transparent; }
+        .sidebar-menu li:hover, .sidebar-menu li.active { background: #f0f0f0; border-left-color: #667eea; }
+        .sidebar-menu li a { color: #333; text-decoration: none; display: block; }
+        .main-content { margin-left: 250px; padding: 30px; }
+        .container { background: white; border-radius: 10px; padding: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .update-card {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        .update-card h3 { margin-bottom: 10px; color: #333; }
+        .update-card .date { color: #999; font-size: 14px; margin-bottom: 10px; }
+        .update-card p { color: #666; line-height: 1.6; }
+        .badge { padding: 5px 10px; border-radius: 15px; font-size: 12px; font-weight: 600; }
+        .badge-new { background: #d1e7dd; color: #0f5132; }
+        .badge-important { background: #f8d7da; color: #842029; }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="logo-section"><div class="flag"></div><h2>Thailand eVisa Portal</h2></div>
+        <div class="nav-links"><a href="user-dashboard.html">Dashboard</a><a href="user-profile.html">Profile</a><a href="login.html">Logout</a></div>
+    </div>
+    <div class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="user-dashboard.html">📊 My Dashboard</a></li>
+            <li><a href="manage-applications.html">📋 Manage Applications</a></li>
+            <li><a href="payment-history.html">💳 Payment History</a></li>
+            <li><a href="document-upload.html">📁 Document Upload</a></li>
+            <li><a href="appointment-booking.html">📅 Appointment Booking</a></li>
+            <li><a href="track-application.html">🔍 Track Application</a></li>
+            <li class="active"><a href="portal-updates.html">📢 Portal Updates</a></li>
+            <li><a href="documents-center.html">📚 Documents Center</a></li>
+            <li><a href="help-center.html">❓ Help Center</a></li>
+            <li><a href="user-profile.html">⚙️ Profile Settings</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="container">
+            <h2>Portal Updates & Announcements</h2>
+            <div class="update-card">
+                <span class="badge badge-new">NEW</span>
+                <h3>E-Visa Processing Time Reduced</h3>
+                <div class="date">📅 December 15, 2025</div>
+                <p>Great news! We've streamlined our visa processing system. Most applications are now being processed within 3-5 business days instead of 7-10 days.</p>
+            </div>
+            <div class="update-card">
+                <span class="badge badge-important">IMPORTANT</span>
+                <h3>New Document Requirements</h3>
+                <div class="date">📅 December 10, 2025</div>
+                <p>Starting January 1, 2026, all visa applications must include a hotel booking confirmation. Please ensure your documents are up to date.</p>
+            </div>
+            <div class="update-card">
+                <h3>Cryptocurrency Payment Now Available</h3>
+                <div class="date">📅 December 5, 2025</div>
+                <p>We now accept Bitcoin, USDT, and Ethereum for visa fee payments. Select crypto payment option during checkout.</p>
+            </div>
+            <div class="update-card">
+                <h3>Mobile App Coming Soon</h3>
+                <div class="date">📅 November 28, 2025</div>
+                <p>Track your applications on-the-go! Our mobile app for iOS and Android will be launching in Q1 2026.</p>
+            </div>
+            <div class="update-card">
+                <h3>System Maintenance Notice</h3>
+                <div class="date">📅 November 20, 2025</div>
+                <p>The portal will undergo maintenance on December 25, 2025, from 2:00 AM to 6:00 AM (GMT+7). Services may be temporarily unavailable.</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        if (!currentUser) window.location.href = 'login.html';
+    </script>
+</body>
+</html>

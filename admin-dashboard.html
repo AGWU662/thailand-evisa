@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Thai eVisa Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+            padding: 20px 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .flag {
+            width: 60px;
+            height: 40px;
+            background: linear-gradient(to bottom, #ed1c24 0%, #ed1c24 33.33%, white 33.33%, white 66.66%, #241d4f 66.66%, #241d4f 100%);
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .header h1 {
+            font-size: 24px;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .admin-badge {
+            background: #27ae60;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+        .logout-btn:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #667eea;
+            transition: all 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .stat-card.pending { border-left-color: #f39c12; }
+        .stat-card.processing { border-left-color: #3498db; }
+        .stat-card.approved { border-left-color: #27ae60; }
+        .stat-card.rejected { border-left-color: #e74c3c; }
+        .stat-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1a237e;
+            margin-bottom: 10px;
+        }
+        .stat-label {
+            font-size: 16px;
+            color: #666;
+            font-weight: 600;
+        }
+        .panel {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+        .panel-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a237e;
+        }
+        .search-filter {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .search-input {
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            min-width: 250px;
+            transition: all 0.3s;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+        .filter-select {
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.3s;
+        }
+        .filter-select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .applications-table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow-x: auto;
+        }
+        .applications-table th {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: left;
+            font-weight: 700;
+            color: #1a237e;
+            border-bottom: 2px solid #e0e0e0;
+            font-size: 14px;
+        }
+        .applications-table td {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+        .applications-table tr:hover {
+            background: #f8f9ff;
+        }
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-block;
+        }
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-processing {
+            background: #cce5ff;
+            color: #004085;
+        }
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .action-select {
+            padding: 8px 12px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            background: white;
+            color: #667eea;
+            transition: all 0.3s;
+        }
+        .action-select:hover {
+            background: #667eea;
+            color: white;
+        }
+        .btn-save {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 13px;
+            margin-left: 10px;
+            transition: all 0.3s;
+        }
+        .btn-save:hover {
+            background: #229954;
+            transform: scale(1.05);
+        }
+        .btn-view {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-right: 5px;
+            transition: all 0.3s;
+        }
+        .btn-view:hover {
+            background: #2980b9;
+        }
+        .nav-arrow {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            padding: 15px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 14px;
+            color: #1a237e;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+        .nav-arrow:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            background: #667eea;
+            color: white;
+        }
+        .nav-arrow-left { left: 20px; }
+        .nav-arrow-right { right: 20px; }
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .search-filter {
+                flex-direction: column;
+            }
+            .search-input {
+                width: 100%;
+            }
+            .applications-table {
+                font-size: 12px;
+            }
+            .applications-table th,
+            .applications-table td {
+                padding: 10px 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Arrows -->
+    <div class="nav-arrow nav-arrow-left" onclick="window.history.back()" title="Go Back">
+        ← Back
+    </div>
+    <div class="nav-arrow nav-arrow-right" onclick="window.history.forward()" title="Go Forward">
+        Forward →
+    </div>
+
+    <div class="header">
+        <div class="header-left">
+            <div class="flag"></div>
+            <h1>🇹🇭 Admin Dashboard - Thai eVisa Portal</h1>
+        </div>
+        <div class="header-right">
+            <div class="admin-badge">👨‍💼 Admin</div>
+            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card pending">
+                <div class="stat-icon">📋</div>
+                <div class="stat-value" id="pendingCount">28</div>
+                <div class="stat-label">Pending Applications</div>
+            </div>
+            <div class="stat-card processing">
+                <div class="stat-icon">🔄</div>
+                <div class="stat-value" id="processingCount">15</div>
+                <div class="stat-label">Processing</div>
+            </div>
+            <div class="stat-card approved">
+                <div class="stat-icon">✅</div>
+                <div class="stat-value" id="approvedCount">32</div>
+                <div class="stat-label">Approved</div>
+            </div>
+            <div class="stat-card rejected">
+                <div class="stat-icon">❌</div>
+                <div class="stat-value" id="rejectedCount">5</div>
+                <div class="stat-label">Rejected</div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <div class="panel-title">📊 All Visa Applications</div>
+                <div class="search-filter">
+                    <input type="text" class="search-input" placeholder="🔍 Search by name, booking number, email..." id="searchInput" oninput="filterApplications()">
+                    <select class="filter-select" id="statusFilter" onchange="filterApplications()">
+                        <option value="">All Statuses</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="applications-table" id="applicationsTable">
+                    <thead>
+                        <tr>
+                            <th>Booking No.</th>
+                            <th>Applicant Name</th>
+                            <th>Email</th>
+                            <th>Nationality</th>
+                            <th>Visa Type</th>
+                            <th>Submission Date</th>
+                            <th>Current Status</th>
+                            <th>Change Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="applicationsBody">
+                        <!-- Applications will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if admin is logged in
+        if (localStorage.getItem('isLoggedIn') !== 'true' || localStorage.getItem('userRole') !== 'admin') {
+            alert('⚠️ Access Denied! Admin privileges required.');
+            window.location.href = 'login.html';
+        }
+
+        // Sample applications data
+        let applications = [
+            { bookingNumber: 'TH-2025-1001', name: 'Samuel Okorie', email: 'samuel.okorie@email.com', nationality: 'Nigerian', visaType: 'Tourist Visa (TR)', submissionDate: '12 Aug 2025', status: 'Pending', payment: 'Paid' },
+            { bookingNumber: 'TH-2025-1002', name: 'Aisha Bello', email: 'aisha.bello@email.com', nationality: 'Nigerian', visaType: 'Business Visa (B)', submissionDate: '11 Aug 2025', status: 'Approved', payment: 'Paid' },
+            { bookingNumber: 'TH-2025-1003', name: 'Musa Abdullahi', email: 'musa.abdullahi@email.com', nationality: 'Nigerian', visaType: 'Tourist Visa (TR)', submissionDate: '13 Dec 2025', status: 'Processing', payment: 'Paid' },
+            { bookingNumber: 'TH-2025-1004', name: 'Linda Chen', email: 'linda.chen@email.com', nationality: 'Chinese', visaType: 'Business Visa (B)', submissionDate: '12 Dec 2025', status: 'Approved', payment: 'Paid' },
+            { bookingNumber: 'TH-2025-1005', name: 'Kwame Mensah', email: 'kwame.mensah@email.com', nationality: 'Ghanaian', visaType: 'Student Visa (ED)', submissionDate: '11 Dec 2025', status: 'Rejected', payment: 'Paid' },
+            { bookingNumber: 'TH-2025-1006', name: 'Rahim Khan', email: 'rahim.khan@email.com', nationality: 'Pakistani', visaType: 'Medical Visa (MT)', submissionDate: '10 Dec 2025', status: 'Processing', payment: 'Paid' },
+            { bookingNumber: 'TH-2025-1007', name: 'John Adeyemi', email: 'john.adeyemi@email.com', nationality: 'Nigerian', visaType: 'Business Visa (B)', submissionDate: '09 Dec 2025', status: 'Approved', payment: 'Paid' },
+            { bookingNumber: 'TH-2025-1061', name: 'Umar Farooq', email: 'umarumarfarooq016@gmail.com', nationality: 'Pakistani', visaType: 'Tourist Visa (TR)', submissionDate: '16 Dec 2025', status: 'Processing', payment: 'Paid' }
+        ];
+
+        // Load saved applications
+        const savedApplications = JSON.parse(localStorage.getItem('visaApplications') || '[]');
+        if (savedApplications.length > 0) {
+            savedApplications.forEach(app => {
+                applications.push({
+                    bookingNumber: app.bookingNumber,
+                    name: `${app.firstName} ${app.lastName}`,
+                    email: app.email,
+                    nationality: app.nationality,
+                    visaType: app.visaType,
+                    submissionDate: app.submissionDate,
+                    status: app.status || 'Pending',
+                    payment: app.payment || 'Pending'
+                });
+            });
+        }
+
+        function loadApplications() {
+            const tbody = document.getElementById('applicationsBody');
+            tbody.innerHTML = '';
+
+            applications.forEach((app, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${app.bookingNumber}</strong></td>
+                    <td>${app.name}</td>
+                    <td>${app.email}</td>
+                    <td>${app.nationality}</td>
+                    <td>${app.visaType}</td>
+                    <td>${app.submissionDate}</td>
+                    <td><span class="status-badge status-${app.status.toLowerCase()}">${app.status}</span></td>
+                    <td>
+                        <select class="action-select" id="status_${index}">
+                            <option value="Pending" ${app.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                            <option value="Processing" ${app.status === 'Processing' ? 'selected' : ''}>Processing</option>
+                            <option value="Approved" ${app.status === 'Approved' ? 'selected' : ''}>Approved</option>
+                            <option value="Rejected" ${app.status === 'Rejected' ? 'selected' : ''}>Rejected</option>
+                        </select>
+                        <button class="btn-save" onclick="updateStatus(${index})">💾 Save</button>
+                    </td>
+                    <td>
+                        <button class="btn-view" onclick="viewApplication('${app.bookingNumber}')">👁️ View</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            updateStats();
+        }
+
+        function updateStatus(index) {
+            const newStatus = document.getElementById(`status_${index}`).value;
+            applications[index].status = newStatus;
+            
+            // Update localStorage
+            const savedApps = JSON.parse(localStorage.getItem('visaApplications') || '[]');
+            const savedIndex = savedApps.findIndex(app => app.bookingNumber === applications[index].bookingNumber);
+            if (savedIndex !== -1) {
+                savedApps[savedIndex].status = newStatus;
+                localStorage.setItem('visaApplications', JSON.stringify(savedApps));
+            }
+
+            alert(`✅ Status Updated!\n\nBooking: ${applications[index].bookingNumber}\nNew Status: ${newStatus}\n\nEmail notification sent to ${applications[index].email}`);
+            loadApplications();
+        }
+
+        function updateStats() {
+            const pending = applications.filter(app => app.status === 'Pending').length;
+            const processing = applications.filter(app => app.status === 'Processing').length;
+            const approved = applications.filter(app => app.status === 'Approved').length;
+            const rejected = applications.filter(app => app.status === 'Rejected').length;
+
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('processingCount').textContent = processing;
+            document.getElementById('approvedCount').textContent = approved;
+            document.getElementById('rejectedCount').textContent = rejected;
+        }
+
+        function filterApplications() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            
+            const rows = document.querySelectorAll('#applicationsBody tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                const status = row.querySelector('.status-badge').textContent;
+                
+                const matchesSearch = text.includes(searchTerm);
+                const matchesStatus = !statusFilter || status === statusFilter;
+                
+                row.style.display = matchesSearch && matchesStatus ? '' : 'none';
+            });
+        }
+
+        function viewApplication(bookingNumber) {
+            window.location.href = `visa-preview.html?booking=${bookingNumber}`;
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userRole');
+                localStorage.removeItem('userEmail');
+                window.location.href = 'login.html';
+            }
+        }
+
+        loadApplications();
+    </script>
+</body>
+</html>

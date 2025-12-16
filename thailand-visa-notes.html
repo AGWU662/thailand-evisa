@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thai eVisa - Application Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+        }
+        .top-header {
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 12px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .top-header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .flag {
+            width: 50px;
+            height: 33px;
+            background: linear-gradient(to bottom, #ed1c24 0%, #ed1c24 33.33%, white 33.33%, white 66.66%, #241d4f 66.66%, #241d4f 100%);
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #27ae60;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
+            margin-left: 12px;
+        }
+        .verified-badge::before {
+            content: "✓";
+            background: white;
+            color: #27ae60;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        .top-header-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            color: #666;
+            font-size: 14px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .main-nav {
+            background: #1a237e;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .nav-links {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 16px 20px;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255,255,255,0.15);
+        }
+        .apply-btn {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .apply-btn:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+        }
+        .sidebar-layout {
+            display: flex;
+            gap: 20px;
+            max-width: 1600px;
+            margin: 30px auto;
+            padding: 0 40px;
+        }
+        .sidebar {
+            width: 260px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        .sidebar h3 {
+            font-size: 16px;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        .sidebar-menu {
+            list-style: none;
+        }
+        .sidebar-menu li {
+            margin-bottom: 8px;
+        }
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            color: #555;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        .sidebar-menu a:hover {
+            background: #f0f2f5;
+            color: #1a237e;
+        }
+        .sidebar-menu a.active {
+            background: #1a237e;
+            color: white;
+            font-weight: 600;
+        }
+        .sidebar-menu a::before {
+            content: "▸";
+            font-size: 16px;
+        }
+        .main-content {
+            flex: 1;
+        }
+        .breadcrumb {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        .breadcrumb a {
+            color: #1a237e;
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        .page-title {
+            font-size: 28px;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .page-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+        .dashboard-summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .dashboard-summary h2 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+        .summary-stats {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .summary-stat {
+            display: flex;
+            flex-direction: column;
+        }
+        .summary-stat .number {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .summary-stat .label {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        .tab-menu {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e0e0e0;
+            flex-wrap: wrap;
+        }
+        .tab {
+            padding: 12px 28px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: #666;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            top: 2px;
+        }
+        .tab:hover {
+            color: #1a237e;
+        }
+        .tab.active {
+            color: #1a237e;
+            border-bottom-color: #1a237e;
+        }
+        .search-filter-section {
+            background: white;
+            padding: 20px 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .search-box::before {
+            content: "🔍";
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+        }
+        .filter-dropdown {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+        }
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .stat-box {
+            background: white;
+            padding: 18px 22px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            border-left: 4px solid #ddd;
+        }
+        .stat-box.processing {
+            border-left-color: #f39c12;
+        }
+        .stat-box.finalized {
+            border-left-color: #27ae60;
+        }
+        .stat-box.cancelled {
+            border-left-color: #e74c3c;
+        }
+        .stat-box.incomplete {
+            border-left-color: #95a5a6;
+        }
+        .stat-box h3 {
+            font-size: 32px;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+        .stat-box p {
+            color: #666;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+        thead {
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        th {
+            padding: 16px 20px;
+            text-align: left;
+            font-size: 13px;
+            font-weight: 700;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: #333;
+        }
+        tbody tr {
+            transition: background 0.2s;
+        }
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+        .booking-number {
+            color: #1a237e;
+            font-weight: 600;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .status-processing {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-finalized {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .status-incomplete {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+        .action-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .action-links a {
+            color: #1a237e;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .action-links a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            margin-top: 50px;
+            padding: 30px 40px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            color: #666;
+        }
+        .footer p {
+            font-size: 13px;
+            line-height: 1.8;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar-layout {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+            .top-header {
+                padding: 12px 20px;
+            }
+            .main-nav {
+                padding: 0 20px;
+            }
+            .sidebar-layout {
+                padding: 0 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .top-header-right {
+                width: 100%;
+                justify-content: space-between;
+                margin-top: 10px;
+            }
+            .nav-links {
+                width: 100%;
+            }
+            .nav-links a {
+                padding: 12px 15px;
+            }
+            .page-title {
+                font-size: 24px;
+            }
+            .stats-overview {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            .tab {
+                padding: 10px 15px;
+                font-size: 13px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .summary-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .stat-box h3 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <div class="top-header-left">
+            <div class="flag"></div>
+            <span class="logo-text">Thai eVisa</span>
+            <span class="verified-badge">Thailand Verified</span>
+        </div>
+        <div class="top-header-right">
+            <span>User Manual</span>
+            <div class="user-info">
+                <div class="user-avatar">AD</div>
+                <span>Admin User</span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="main-nav">
+        <div class="nav-links">
+            <a href="#" class="active" onclick="showPage('dashboard')">E-Visa Dashboard</a>
+            <a href="#" onclick="showPage('individual')">Thai eVisa (Individual)</a>
+            <a href="#" onclick="showPage('updates')">Portal Updates</a>
+            <a href="#" onclick="showPage('documents')">Document Center</a>
+            <a href="#" onclick="showPage('help')">Help Center</a>
+        </div>
+        <button class="apply-btn" onclick="alert('New Application Form - Coming Soon!')">+ Apply for New Visa</button>
+    </nav>
+
+    <div class="sidebar-layout">
+        <aside class="sidebar">
+            <h3>Quick Menu</h3>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active">My Dashboard</a></li>
+                <li><a href="#" onclick="showManageSection()">Manage Applications</a></li>
+                <li><a href="#">Payment History</a></li>
+                <li><a href="#">Document Upload</a></li>
+                <li><a href="#">Track Application</a></li>
+                <li><a href="#">Appointment Booking</a></li>
+                <li><a href="#">Profile Settings</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="#">Home</a> / <a href="#">Dashboard</a> / <span>Manage Applications</span>
+            </div>
+
+            <h1 class="page-title">My Visa Applications</h1>
+            <p class="page-subtitle">Track and manage all your visa applications in one place</p>
+
+            <div class="dashboard-summary">
+                <h2>Application Summary</h2>
+                <div class="summary-stats">
+                    <div class="summary-stat">
+                        <div class="number">70</div>
+                        <div class="label">Total Applications</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number">28</div>
+                        <div class="label">In Progress</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number">32</div>
+                        <div class="label">Completed</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number">5</div>
+                        <div class="label">Requires Action</div>
+                    </div>
+                </div>
+            </div>
+
+        <div class="tab-menu">
+            <button class="tab active" onclick="filterApplications('all')">📋 All Applications</button>
+            <button class="tab" onclick="filterApplications('incomplete')">⚠️ Incomplete</button>
+            <button class="tab" onclick="filterApplications('ready')">✅ Ready to Submit</button>
+            <button class="tab" onclick="filterApplications('processing')">🔄 Processing</button>
+            <button class="tab" onclick="filterApplications('finalized')">✓ Finalized</button>
+        </div>
+
+        <div class="search-filter-section">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Search by booking number, name, or reference..." onkeyup="searchTable()">
+            </div>
+            <select class="filter-dropdown" id="statusFilter" onchange="filterByStatus()">
+                <option value="all">All Statuses</option>
+                <option value="processing">🔄 Processing</option>
+                <option value="finalized">✓ Finalized</option>
+                <option value="cancelled">✕ Cancelled</option>
+                <option value="incomplete">⚠️ Incomplete</option>
+            </select>
+        </div>
+
+        <div class="stats-overview">
+            <div class="stat-box processing">
+                <h3>🔄 28</h3>
+                <p>PROCESSING</p>
+            </div>
+            <div class="stat-box finalized">
+                <h3>✓ 32</h3>
+                <p>FINALIZED</p>
+            </div>
+            <div class="stat-box cancelled">
+                <h3>✕ 5</h3>
+                <p>CANCELLED</p>
+            </div>
+            <div class="stat-box incomplete">
+                <h3>⚠️ 5</h3>
+                <p>INCOMPLETE</p>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table id="applicationsTable">
+                <thead>
+                    <tr>
+                        <th>📌 Booking Number</th>
+                        <th>🏛️ Submit To</th>
+                        <th>📅 Paid Date & Time</th>
+                        <th>📊 Status</th>
+                        <th>👥 Total Applicants</th>
+                        <th>⚙️ Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-status="processing">
+                        <td class="booking-number">🇹🇭 TH-2025-1001</td>
+                        <td>🏛️ Royal Thai Consulate General, Los Angeles</td>
+                        <td>15 Dec 2025, 09:23 AM</td>
+                        <td><span class="status-badge status-processing">🔄 Processing</span></td>
+                        <td>👤 Samuel Okorie, 34</td>
+                        <td class="action-links"><a href="#" onclick="alert('Viewing TH-2025-1001')">👁️ View</a> <a href="#" onclick="alert('Downloading receipt')">📄 Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1002</td>
+                        <td>Royal Thai Embassy, Washington DC</td>
+                        <td>14 Dec 2025, 02:45 PM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Aisha Bello, 29)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1003</td>
+                        <td>Royal Thai Consulate, New York</td>
+                        <td>13 Dec 2025, 11:12 AM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Musa Abdullahi, 41)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1004</td>
+                        <td>Royal Thai Consulate General, Los Angeles</td>
+                        <td>12 Dec 2025, 08:34 AM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Linda Chen, 38)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1005</td>
+                        <td>Royal Thai Embassy, London</td>
+                        <td>11 Dec 2025, 03:21 PM</td>
+                        <td><span class="status-badge status-cancelled">Cancelled</span></td>
+                        <td>1 (Kwame Mensah, 22)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1006</td>
+                        <td>Royal Thai Consulate, Chicago</td>
+                        <td>10 Dec 2025, 10:45 AM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Rahim Khan, 45)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1007</td>
+                        <td>Royal Thai Embassy, Ottawa</td>
+                        <td>09 Dec 2025, 01:56 PM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (John Adeyemi, 31)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1008</td>
+                        <td>Royal Thai Consulate General, Los Angeles</td>
+                        <td>08 Dec 2025, 09:18 AM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Fatima Sule, 36)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1009</td>
+                        <td>Royal Thai Embassy, Berlin</td>
+                        <td>07 Dec 2025, 04:32 PM</td>
+                        <td><span class="status-badge status-cancelled">Cancelled</span></td>
+                        <td>1 (Daniel Roberts, 52)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1010</td>
+                        <td>Royal Thai Consulate, Sydney</td>
+                        <td>06 Dec 2025, 11:07 AM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Mary Ann Joseph, 27)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1011</td>
+                        <td>Royal Thai Embassy, Singapore</td>
+                        <td>05 Dec 2025, 02:15 PM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Ibrahim Sadiq, 40)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1012</td>
+                        <td>Royal Thai Consulate General, Los Angeles</td>
+                        <td>04 Dec 2025, 08:49 AM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Zainab Lawal, 33)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1013</td>
+                        <td>Royal Thai Embassy, Tokyo</td>
+                        <td>03 Dec 2025, 03:28 PM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Ahmed Raza, 48)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1014</td>
+                        <td>Royal Thai Consulate, Dubai</td>
+                        <td>02 Dec 2025, 10:11 AM</td>
+                        <td><span class="status-badge status-cancelled">Cancelled</span></td>
+                        <td>1 (Chukwudi Nnamdi, 35)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1015</td>
+                        <td>Royal Thai Embassy, Kuala Lumpur</td>
+                        <td>01 Dec 2025, 01:43 PM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Siti Rahmah, 26)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1016</td>
+                        <td>Royal Thai Consulate General, Los Angeles</td>
+                        <td>28 Nov 2025, 09:55 AM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Abdul Karim, 54)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1017</td>
+                        <td>Royal Thai Embassy, Paris</td>
+                        <td>27 Nov 2025, 02:37 PM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Peter Menson, 39)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1018</td>
+                        <td>Royal Thai Consulate, Mumbai</td>
+                        <td>26 Nov 2025, 11:22 AM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Noor Ali, 24)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1019</td>
+                        <td>Royal Thai Embassy, Beijing</td>
+                        <td>25 Nov 2025, 04:08 PM</td>
+                        <td><span class="status-badge status-cancelled">Cancelled</span></td>
+                        <td>1 (Hassan Mahmood, 46)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1020</td>
+                        <td>Royal Thai Consulate General, Los Angeles</td>
+                        <td>24 Nov 2025, 09:14 AM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Blessing Okafor, 28)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1021</td>
+                        <td>Royal Thai Embassy, Seoul</td>
+                        <td>23 Nov 2025, 01:51 PM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Victor Adebayo, 42)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1022</td>
+                        <td>Royal Thai Consulate, Vancouver</td>
+                        <td>22 Nov 2025, 10:36 AM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Mariam Yusuf, 31)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1023</td>
+                        <td>Royal Thai Embassy, Madrid</td>
+                        <td>21 Nov 2025, 03:19 PM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Abdul Wahab, 50)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1024</td>
+                        <td>Royal Thai Consulate General, Los Angeles</td>
+                        <td>20 Nov 2025, 08:42 AM</td>
+                        <td><span class="status-badge status-cancelled">Cancelled</span></td>
+                        <td>1 (Kelvin Brown, 37)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1025</td>
+                        <td>Royal Thai Embassy, Dhaka</td>
+                        <td>19 Nov 2025, 02:27 PM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Farzana Akter, 29)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1026</td>
+                        <td>Royal Thai Consulate, Lagos</td>
+                        <td>18 Nov 2025, 11:03 AM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Mohammed Salim, 44)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1027</td>
+                        <td>Royal Thai Embassy, Rome</td>
+                        <td>17 Nov 2025, 04:15 PM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Esther Johnson, 34)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1028</td>
+                        <td>Royal Thai Consulate General, Los Angeles</td>
+                        <td>16 Nov 2025, 09:48 AM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Ridwan Olatunji, 27)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1029</td>
+                        <td>Royal Thai Embassy, Riyadh</td>
+                        <td>15 Nov 2025, 01:31 PM</td>
+                        <td><span class="status-badge status-incomplete">Incomplete</span></td>
+                        <td>1 (Tariq Aziz, 53)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1030</td>
+                        <td>Royal Thai Consulate, Auckland</td>
+                        <td>14 Nov 2025, 10:17 AM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Grace Williams, 41)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1031</td>
+                        <td>Royal Thai Embassy, Abuja</td>
+                        <td>13 Nov 2025, 03:05 PM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Sulaiman Bello, 36)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1032</td>
+                        <td>Royal Thai Consulate General, Los Angeles</td>
+                        <td>12 Nov 2025, 08:51 AM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Hafsa Ahmed, 25)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1033</td>
+                        <td>Royal Thai Embassy, Nairobi</td>
+                        <td>11 Nov 2025, 02:38 PM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Nuru Said, 47)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1034</td>
+                        <td>Royal Thai Consulate, Hong Kong</td>
+                        <td>10 Nov 2025, 11:24 AM</td>
+                        <td><span class="status-badge status-incomplete">Incomplete</span></td>
+                        <td>1 (James Okonkwo, 55)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1035</td>
+                        <td>Royal Thai Embassy, Cairo</td>
+                        <td>09 Nov 2025, 04:09 PM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Amina Saleh, 32)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1036</td>
+                        <td>Royal Thai Consulate General, Los Angeles</td>
+                        <td>08 Nov 2025, 09:32 AM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Yusuf Hamza, 39)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1037</td>
+                        <td>Royal Thai Embassy, Brussels</td>
+                        <td>07 Nov 2025, 01:46 PM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Pauline Clarke, 44)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1038</td>
+                        <td>Royal Thai Consulate, Karachi</td>
+                        <td>06 Nov 2025, 10:28 AM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Bashir Lawan, 51)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1039</td>
+                        <td>Royal Thai Embassy, Dakar</td>
+                        <td>05 Nov 2025, 03:12 PM</td>
+                        <td><span class="status-badge status-incomplete">Incomplete</span></td>
+                        <td>1 (Ousmane Diop, 58)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1040</td>
+                        <td>Royal Thai Consulate General, Los Angeles</td>
+                        <td>04 Nov 2025, 08:57 AM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Faith Abiola, 26)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1041</td>
+                        <td>Royal Thai Embassy, Jakarta</td>
+                        <td>03 Nov 2025, 02:41 PM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Hamid Noor, 49)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1042</td>
+                        <td>Royal Thai Consulate, Accra</td>
+                        <td>02 Nov 2025, 11:19 AM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Kofi Adu, 35)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1043</td>
+                        <td>Royal Thai Embassy, Doha</td>
+                        <td>01 Nov 2025, 04:03 PM</td>
+                        <td><span class="status-badge status-incomplete">Incomplete</span></td>
+                        <td>1 (Abdul Rahman, 60)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1044</td>
+                        <td>Royal Thai Consulate General, Los Angeles</td>
+                        <td>28 Oct 2025, 09:35 AM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Juliet Peters, 38)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1045</td>
+                        <td>Royal Thai Embassy, Islamabad</td>
+                        <td>27 Oct 2025, 01:52 PM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Salman Qureshi, 43)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1046</td>
+                        <td>Royal Thai Consulate, Kano</td>
+                        <td>26 Oct 2025, 10:27 AM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Ibrahim Musa, 29)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1047</td>
+                        <td>Royal Thai Embassy, Stockholm</td>
+                        <td>25 Oct 2025, 03:08 PM</td>
+                        <td><span class="status-badge status-incomplete">Incomplete</span></td>
+                        <td>1 (Henry Collins, 56)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1048</td>
+                        <td>Royal Thai Consulate General, Los Angeles</td>
+                        <td>24 Oct 2025, 08:44 AM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Zulekha Noor, 34)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1049</td>
+                        <td>Royal Thai Embassy, Abuja</td>
+                        <td>23 Oct 2025, 02:31 PM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Mustapha Danjuma, 41)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1050</td>
+                        <td>Royal Thai Consulate, Seoul</td>
+                        <td>22 Oct 2025, 11:16 AM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Linda Park, 33)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1051</td>
+                        <td>Royal Thai Embassy, Abuja</td>
+                        <td>21 Oct 2025, 04:02 PM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Sadiya Umar, 28)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1052</td>
+                        <td>Royal Thai Consulate General, Los Angeles</td>
+                        <td>18 Oct 2025, 09:21 AM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Robert King, 62)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1053</td>
+                        <td>Royal Thai Embassy, Khartoum</td>
+                        <td>17 Oct 2025, 01:47 PM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Nabila Hassan, 36)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1054</td>
+                        <td>Royal Thai Consulate, Jeddah</td>
+                        <td>16 Oct 2025, 10:33 AM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Mohammed Faisal, 45)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1055</td>
+                        <td>Royal Thai Embassy, Manila</td>
+                        <td>15 Oct 2025, 03:18 PM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Josephine Mark, 40)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1056</td>
+                        <td>Royal Thai Consulate General, Los Angeles</td>
+                        <td>14 Oct 2025, 08:55 AM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Suleiman Garba, 52)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1057</td>
+                        <td>Royal Thai Embassy, Accra</td>
+                        <td>11 Oct 2025, 02:42 PM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Patrick Osei, 57)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1058</td>
+                        <td>Royal Thai Consulate, Lagos</td>
+                        <td>10 Oct 2025, 11:28 AM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Rukayat Adeola, 31)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1059</td>
+                        <td>Royal Thai Embassy, Islamabad</td>
+                        <td>09 Oct 2025, 04:11 PM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Imran Latif, 48)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1060</td>
+                        <td>Royal Thai Consulate General, Los Angeles</td>
+                        <td>08 Oct 2025, 09:37 AM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Angela Morris, 35)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1061</td>
+                        <td>Royal Thai Embassy, Islamabad</td>
+                        <td>16 Dec 2025, 02:23 PM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Umar Farooq, 67) - umarumarfarooq016@gmail.com</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1062</td>
+                        <td>Royal Thai Embassy, Abuja</td>
+                        <td>07 Oct 2025, 01:53 PM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Adamu Tanko, 54)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1063</td>
+                        <td>Royal Thai Consulate General, Los Angeles</td>
+                        <td>06 Oct 2025, 10:29 AM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Hajara Sadiq, 29)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1064</td>
+                        <td>Royal Thai Embassy, London</td>
+                        <td>03 Oct 2025, 03:15 PM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Steven White, 59)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1065</td>
+                        <td>Royal Thai Consulate, Kano</td>
+                        <td>02 Oct 2025, 08:41 AM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Musa Yahaya, 46)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1066</td>
+                        <td>Royal Thai Embassy, Jakarta</td>
+                        <td>01 Oct 2025, 02:27 PM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Faridah Noor, 34)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1067</td>
+                        <td>Royal Thai Consulate General, Los Angeles</td>
+                        <td>28 Sep 2025, 11:12 AM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Collins Eze, 51)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1068</td>
+                        <td>Royal Thai Embassy, Jeddah</td>
+                        <td>25 Sep 2025, 04:04 PM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Abdul Latif, 63)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1069</td>
+                        <td>Royal Thai Consulate, Toronto</td>
+                        <td>22 Sep 2025, 09:38 AM</td>
+                        <td><span class="status-badge status-finalized">Finalized</span></td>
+                        <td>1 (Naomi Brooks, 37)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+                    <tr>
+                        <td class="booking-number">TH-2025-1070</td>
+                        <td>Royal Thai Embassy, Baghdad</td>
+                        <td>18 Sep 2025, 01:51 PM</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                        <td>1 (Sadiq Mohammed, 42)</td>
+                        <td class="action-links"><a href="#">View</a> <a href="#">Receipt</a></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>Note:</strong> This is demo data for demonstration purposes only. Not an official government system.</p>
+        <p>Thai eVisa Portal © 2025 | Ministry of Foreign Affairs, Kingdom of Thailand</p>
+    </div>
+
+    <script>
+        function filterApplications(type) {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // This is demo - in real app would filter table rows
+            console.log('Filtering by:', type);
+        }
+    </script>
+</body>
+</html>

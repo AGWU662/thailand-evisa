@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center - Thailand eVisa Portal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .top-bar { background: #1a1a2e; color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo-section { display: flex; align-items: center; gap: 15px; }
+        .flag { width: 50px; height: 35px; background: linear-gradient(to bottom, #ff0000 0%, #ff0000 33%, #ffffff 33%, #ffffff 66%, #0000ff 66%, #0000ff 100%); border-radius: 3px; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a { color: white; text-decoration: none; padding: 8px 15px; border-radius: 5px; }
+        .sidebar { position: fixed; left: 0; top: 55px; width: 250px; height: calc(100vh - 55px); background: white; box-shadow: 2px 0 10px rgba(0,0,0,0.1); overflow-y: auto; }
+        .sidebar-menu { list-style: none; padding: 20px 0; }
+        .sidebar-menu li { padding: 15px 25px; cursor: pointer; transition: all 0.3s; border-left: 4px solid transparent; }
+        .sidebar-menu li:hover, .sidebar-menu li.active { background: #f0f0f0; border-left-color: #667eea; }
+        .sidebar-menu li a { color: #333; text-decoration: none; display: block; }
+        .main-content { margin-left: 250px; padding: 30px; }
+        .container { background: white; border-radius: 10px; padding: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .search-box { display: flex; gap: 10px; margin: 20px 0; }
+        .search-box input { flex: 1; padding: 15px; border: 2px solid #ddd; border-radius: 5px; font-size: 16px; }
+        .search-box button { padding: 15px 30px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .faq-section { margin: 30px 0; }
+        .faq-item { background: #f8f9fa; padding: 20px; margin: 15px 0; border-radius: 10px; cursor: pointer; transition: all 0.3s; }
+        .faq-item:hover { background: #e9ecef; }
+        .faq-question { font-weight: 600; color: #333; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .faq-answer { color: #666; line-height: 1.6; display: none; margin-top: 10px; }
+        .faq-item.active .faq-answer { display: block; }
+        .contact-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 30px 0; }
+        .contact-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 10px; text-align: center; }
+        .contact-card h3 { margin: 15px 0 10px; }
+        .contact-card p { font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="logo-section"><div class="flag"></div><h2>Thailand eVisa Portal</h2></div>
+        <div class="nav-links"><a href="user-dashboard.html">Dashboard</a><a href="user-profile.html">Profile</a><a href="login.html">Logout</a></div>
+    </div>
+    <div class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="user-dashboard.html">📊 My Dashboard</a></li>
+            <li><a href="manage-applications.html">📋 Manage Applications</a></li>
+            <li><a href="payment-history.html">💳 Payment History</a></li>
+            <li><a href="document-upload.html">📁 Document Upload</a></li>
+            <li><a href="appointment-booking.html">📅 Appointment Booking</a></li>
+            <li><a href="track-application.html">🔍 Track Application</a></li>
+            <li><a href="portal-updates.html">📢 Portal Updates</a></li>
+            <li><a href="documents-center.html">📚 Documents Center</a></li>
+            <li class="active"><a href="help-center.html">❓ Help Center</a></li>
+            <li><a href="user-profile.html">⚙️ Profile Settings</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="container">
+            <h2>Help Center</h2>
+            <div class="search-box">
+                <input type="text" placeholder="Search for help...">
+                <button>Search</button>
+            </div>
+
+            <div class="faq-section">
+                <h3>Frequently Asked Questions</h3>
+                <div class="faq-item" onclick="this.classList.toggle('active')">
+                    <div class="faq-question">How long does visa processing take? <span>▼</span></div>
+                    <div class="faq-answer">Most visa applications are processed within 3-5 business days. However, processing times may vary depending on the type of visa and current application volume.</div>
+                </div>
+                <div class="faq-item" onclick="this.classList.toggle('active')">
+                    <div class="faq-question">What documents do I need? <span>▼</span></div>
+                    <div class="faq-answer">Required documents include: valid passport, recent photograph, flight itinerary, hotel booking, bank statement, and employment letter. Check the Documents Center for the complete checklist.</div>
+                </div>
+                <div class="faq-item" onclick="this.classList.toggle('active')">
+                    <div class="faq-question">Can I track my application status? <span>▼</span></div>
+                    <div class="faq-answer">Yes! Use the Track Application feature with your booking number to see real-time updates on your visa application status.</div>
+                </div>
+                <div class="faq-item" onclick="this.classList.toggle('active')">
+                    <div class="faq-question">What payment methods are accepted? <span>▼</span></div>
+                    <div class="faq-answer">We accept credit/debit cards, PayPal, and cryptocurrency payments (Bitcoin, USDT, Ethereum).</div>
+                </div>
+                <div class="faq-item" onclick="this.classList.toggle('active')">
+                    <div class="faq-question">Can I modify my application after submission? <span>▼</span></div>
+                    <div class="faq-answer">Once submitted, applications cannot be modified. However, you can contact support for assistance with urgent changes before processing begins.</div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 40px;">Contact Support</h3>
+            <div class="contact-cards">
+                <div class="contact-card">
+                    <div style="font-size: 40px;">📧</div>
+                    <h3>Email Support</h3>
+                    <p>support@thaievisa.com</p>
+                </div>
+                <div class="contact-card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                    <div style="font-size: 40px;">📞</div>
+                    <h3>Phone Support</h3>
+                    <p>+66 2 123 4567</p>
+                </div>
+                <div class="contact-card" style="background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);">
+                    <div style="font-size: 40px;">💬</div>
+                    <h3>Live Chat</h3>
+                    <p>Available 24/7</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        if (!currentUser) window.location.href = 'login.html';
+    </script>
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard - Thailand E-Visa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #F1F5F9;
+        }
+
+        .navbar {
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .thai-flag {
+            width: 50px;
+            height: 33px;
+            background: linear-gradient(to bottom, #ED1C24 0%, #ED1C24 20%, white 20%, white 40%, #241D4F 40%, #241D4F 60%, white 60%, white 80%, #ED1C24 80%, #ED1C24 100%);
+            border-radius: 5px;
+        }
+
+        .nav-title {
+            font-size: 20px;
+            color: #241D4F;
+            font-weight: 700;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #241D4F;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #241D4F;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1a1539;
+        }
+
+        .btn-danger {
+            background: #EF4444;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .welcome-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .welcome-card h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .welcome-card p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .stat-card h3 {
+            color: #64748B;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-card .number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #241D4F;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .icon {
+            font-size: 40px;
+            opacity: 0.2;
+            float: right;
+        }
+
+        .applications-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-header h2 {
+            color: #241D4F;
+            font-size: 22px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-state i {
+            font-size: 80px;
+            color: #E2E8F0;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            color: #64748B;
+            margin-bottom: 15px;
+        }
+
+        .empty-state p {
+            color: #94A3B8;
+            margin-bottom: 25px;
+        }
+
+        .application-item {
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .application-item:hover {
+            border-color: #241D4F;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .app-id {
+            font-size: 18px;
+            font-weight: 700;
+            color: #241D4F;
+        }
+
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: #FEF3C7;
+            color: #D97706;
+        }
+
+        .status-processing {
+            background: #DBEAFE;
+            color: #2563EB;
+        }
+
+        .status-successful {
+            background: #D1FAE5;
+            color: #059669;
+        }
+
+        .app-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            color: #64748B;
+            font-size: 14px;
+        }
+
+        .detail-item strong {
+            color: #1E293B;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .app-actions {
+            display: flex;
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="thai-flag"></div>
+            <div class="nav-title">Thailand E-Visa Portal</div>
+        </div>
+        <div class="nav-right">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <span id="userName">User</span>
+            </div>
+            <a href="public-landing.html" class="btn btn-primary btn-small">
+                <i class="fas fa-home"></i> Public Board
+            </a>
+            <button class="btn btn-danger btn-small" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="welcome-card">
+            <h1>Welcome back, <span id="welcomeName">User</span>!</h1>
+            <p>Manage your Thailand visa applications from your personal dashboard</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <i class="fas fa-file-alt icon"></i>
+                <h3>Total Applications</h3>
+                <div class="number" id="totalApps">0</div>
+                <p style="color: #64748B; font-size: 14px;">All time applications</p>
+            </div>
+
+            <div class="stat-card">
+                <i class="fas fa-clock icon"></i>
+                <h3>Pending</h3>
+                <div class="number" id="pendingApps">0</div>
+                <p style="color: #64748B; font-size: 14px;">Awaiting review</p>
+            </div>
+
+            <div class="stat-card">
+                <i class="fas fa-check-circle icon"></i>
+                <h3>Approved</h3>
+                <div class="number" id="approvedApps">0</div>
+                <p style="color: #64748B; font-size: 14px;">Successfully processed</p>
+            </div>
+        </div>
+
+        <div class="applications-section">
+            <div class="section-header">
+                <h2><i class="fas fa-folder-open"></i> My Applications</h2>
+                <a href="apply-visa.html" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Apply for New Visa
+                </a>
+            </div>
+
+            <div id="applicationsContainer">
+                <div class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <h3>No Applications Yet</h3>
+                    <p>You haven't submitted any visa applications. Start your application to visit Thailand!</p>
+                    <a href="apply-visa.html" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Start Your First Application
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get current user from localStorage
+        const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        
+        if (!currentUser.email) {
+            window.location.href = 'login.html';
+        }
+
+        // Set user info
+        document.getElementById('userName').textContent = currentUser.fullName || 'User';
+        document.getElementById('welcomeName').textContent = currentUser.fullName || 'User';
+        document.getElementById('userAvatar').textContent = (currentUser.fullName || 'U')[0].toUpperCase();
+
+        // Load user's applications from localStorage
+        function loadUserApplications() {
+            const allApplications = JSON.parse(localStorage.getItem('userApplications') || '{}');
+            const userApps = allApplications[currentUser.email] || [];
+
+            // Update stats
+            document.getElementById('totalApps').textContent = userApps.length;
+            document.getElementById('pendingApps').textContent = userApps.filter(app => app.status === 'pending').length;
+            document.getElementById('approvedApps').textContent = userApps.filter(app => app.status === 'successful').length;
+
+            const container = document.getElementById('applicationsContainer');
+
+            if (userApps.length === 0) {
+                // Show empty state (already in HTML)
+                return;
+            }
+
+            // Display user applications
+            container.innerHTML = userApps.map(app => `
+                <div class="application-item">
+                    <div class="app-header">
+                        <div class="app-id">${app.bookingNo}</div>
+                        <span class="status-badge status-${app.status}">
+                            <i class="fas fa-${app.status === 'pending' ? 'clock' : app.status === 'processing' ? 'spinner' : 'check-circle'}"></i>
+                            ${app.status}
+                        </span>
+                    </div>
+                    <div class="app-details">
+                        <div class="detail-item">
+                            <strong>Full Name</strong>
+                            ${app.name}
+                        </div>
+                        <div class="detail-item">
+                            <strong>Email</strong>
+                            ${app.email}
+                        </div>
+                        <div class="detail-item">
+                            <strong>Submit To</strong>
+                            ${app.submitTo}
+                        </div>
+                        <div class="detail-item">
+                            <strong>Application Date</strong>
+                            ${app.date}
+                        </div>
+                    </div>
+                    <div class="app-actions">
+                        <button class="btn btn-primary btn-small" onclick="viewApplication('${app.bookingNo}')">
+                            <i class="fas fa-eye"></i> View Details
+                        </button>
+                        ${app.status === 'successful' ? `
+                        <button class="btn btn-primary btn-small" onclick="downloadVisa('${app.bookingNo}')">
+                            <i class="fas fa-download"></i> Download Visa
+                        </button>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function viewApplication(bookingNo) {
+            localStorage.setItem('viewingBookingNo', bookingNo);
+            window.location.href = 'visa-preview.html';
+        }
+
+        function downloadVisa(bookingNo) {
+            alert('Downloading visa for ' + bookingNo);
+            // In real implementation, this would generate a PDF
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
+
+        // Load applications on page load
+        loadUserApplications();
+    </script>
+</body>
+</html>

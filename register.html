@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Thai eVisa Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .auth-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            max-width: 1000px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+        }
+        .auth-left {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .flag-section {
+            width: 100px;
+            height: 67px;
+            background: linear-gradient(to bottom, #ed1c24 0%, #ed1c24 33.33%, white 33.33%, white 66.66%, #241d4f 66.66%, #241d4f 100%);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .auth-left h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .auth-left p {
+            font-size: 16px;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+        .features {
+            margin-top: 30px;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .auth-right {
+            padding: 60px 40px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .auth-header h2 {
+            font-size: 28px;
+            color: #1a237e;
+            margin-bottom: 10px;
+        }
+        .auth-header p {
+            color: #666;
+            font-size: 14px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            color: #1a237e;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+        .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .form-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+        .password-wrapper {
+            position: relative;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            user-select: none;
+        }
+        .terms-agreement {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 25px;
+            font-size: 13px;
+            color: #666;
+        }
+        .terms-agreement input[type="checkbox"] {
+            margin-top: 3px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .terms-agreement a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .btn-register {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(102,126,234,0.4);
+        }
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102,126,234,0.6);
+        }
+        .btn-register:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 700;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        .password-strength {
+            margin-top: 8px;
+            font-size: 12px;
+        }
+        .strength-bar {
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        .strength-fill {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s;
+        }
+        .strength-weak { background: #e74c3c; width: 33%; }
+        .strength-medium { background: #f39c12; width: 66%; }
+        .strength-strong { background: #27ae60; width: 100%; }
+        @media (max-width: 768px) {
+            .auth-container {
+                grid-template-columns: 1fr;
+            }
+            .auth-left {
+                padding: 40px 30px;
+            }
+            .auth-right {
+                padding: 40px 30px;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-left">
+            <div class="flag-section"></div>
+            <h1>🇹🇭 Join Thai eVisa Portal</h1>
+            <p>Create your account and start your visa application journey with ease.</p>
+            
+            <div class="features">
+                <div class="feature-item">
+                    <div class="feature-icon">📋</div>
+                    <div>Easy application process</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">⏱️</div>
+                    <div>Quick processing time</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔐</div>
+                    <div>Secure data protection</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📧</div>
+                    <div>Email notifications</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="auth-right">
+            <div class="auth-header">
+                <h2>Create Your Account</h2>
+                <p>Fill in your details to get started</p>
+            </div>
+
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" class="form-input" placeholder="John" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" class="form-input" placeholder="Doe" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" class="form-input" placeholder="john.doe@example.com" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" class="form-input" placeholder="+1 234 567 8900" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nationality">Nationality</label>
+                        <select id="nationality" class="form-select" required>
+                            <option value="">Select Country</option>
+                            <option value="Nigerian">Nigerian</option>
+                            <option value="Pakistani">Pakistani</option>
+                            <option value="Indian">Indian</option>
+                            <option value="Chinese">Chinese</option>
+                            <option value="American">American</option>
+                            <option value="British">British</option>
+                            <option value="Ghanaian">Ghanaian</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="passport">Passport Number</label>
+                        <input type="text" id="passport" class="form-input" placeholder="A12345678" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateOfBirth">Date of Birth</label>
+                        <input type="date" id="dateOfBirth" class="form-input" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" class="form-input" placeholder="Create strong password" required oninput="checkPasswordStrength()">
+                        <span class="toggle-password" onclick="togglePassword('password')">👁️</span>
+                    </div>
+                    <div class="password-strength">
+                        <div class="strength-bar">
+                            <div class="strength-fill" id="strengthFill"></div>
+                        </div>
+                        <span id="strengthText"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="confirmPassword" class="form-input" placeholder="Re-enter password" required>
+                        <span class="toggle-password" onclick="togglePassword('confirmPassword')">👁️</span>
+                    </div>
+                </div>
+
+                <div class="terms-agreement">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">
+                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-register" id="registerBtn">Create Account</button>
+            </form>
+
+            <div class="login-link">
+                Already have an account? <a href="login.html">Login Here</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword(fieldId) {
+            const passwordInput = document.getElementById(fieldId);
+            const toggleIcon = event.currentTarget;
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = '👁️';
+            }
+        }
+
+        function checkPasswordStrength() {
+            const password = document.getElementById('password').value;
+            const strengthFill = document.getElementById('strengthFill');
+            const strengthText = document.getElementById('strengthText');
+            
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^a-zA-Z0-9]/.test(password)) strength++;
+
+            strengthFill.className = 'strength-fill';
+            if (strength <= 1) {
+                strengthFill.classList.add('strength-weak');
+                strengthText.textContent = 'Weak password';
+                strengthText.style.color = '#e74c3c';
+            } else if (strength <= 2) {
+                strengthFill.classList.add('strength-medium');
+                strengthText.textContent = 'Medium password';
+                strengthText.style.color = '#f39c12';
+            } else {
+                strengthFill.classList.add('strength-strong');
+                strengthText.textContent = 'Strong password';
+                strengthText.style.color = '#27ae60';
+            }
+        }
+
+        async function handleRegister(event) {
+            event.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const nationality = document.getElementById('nationality').value;
+            const passport = document.getElementById('passport').value;
+            const dateOfBirth = document.getElementById('dateOfBirth').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const terms = document.getElementById('terms').checked;
+            const registerBtn = event.target.querySelector('.btn-register');
+
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                alert('❌ Passwords do not match!');
+                return;
+            }
+
+            // Validate password strength
+            if (password.length < 8) {
+                alert('❌ Password must be at least 8 characters long!');
+                return;
+            }
+            
+            // Check password complexity
+            const hasUpperCase = /[A-Z]/.test(password);
+            const hasLowerCase = /[a-z]/.test(password);
+            const hasNumbers = /\d/.test(password);
+            const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+            
+            if (!hasUpperCase || !hasLowerCase || !hasNumbers) {
+                alert('❌ Password must contain:\n- At least one uppercase letter\n- At least one lowercase letter\n- At least one number\n\nRecommended: Include special characters (!@#$%^&*)');
+                return;
+            }
+            
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('❌ Please enter a valid email address!');
+                return;
+            }
+            
+            // Validate phone number
+            const phoneRegex = /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/;
+            if (!phoneRegex.test(phone)) {
+                alert('❌ Please enter a valid phone number!');
+                return;
+            }
+            
+            // Validate date of birth (must be at least 18 years old)
+            const birthDate = new Date(dateOfBirth);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            if (age < 18) {
+                alert('❌ You must be at least 18 years old to register!');
+                return;
+            }
+
+            if (!terms) {
+                alert('❌ Please agree to Terms of Service and Privacy Policy!');
+                return;
+            }
+
+            // Disable button and show loading
+            registerBtn.disabled = true;
+            registerBtn.textContent = 'Creating Account...';
+
+            try {
+                // Call backend API
+                const response = await fetch('http://localhost:5000/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        fullName: `${firstName} ${lastName}`,
+                        email,
+                        password,
+                        phone,
+                        nationality,
+                        dateOfBirth,
+                        passportNumber: passport
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Success message
+                    alert('✅ Registration Successful!\n\nYour account has been created.\nYou can now login with your credentials.');
+
+                    // Redirect to login
+                    window.location.href = 'login.html';
+                } else {
+                    alert('❌ Registration failed!\n\n' + data.message);
+                    registerBtn.disabled = false;
+                    registerBtn.textContent = 'Create Account';
+                }
+            } catch (error) {
+                console.error('Backend connection error, using fallback registration:', error);
+                
+                // Fallback to localStorage registration
+                const userData = {
+                    firstName,
+                    lastName,
+                    fullName: `${firstName} ${lastName}`,
+                    email,
+                    password, // In production, this should be hashed
+                    phone,
+                    nationality,
+                    dateOfBirth,
+                    passport,
+                    role: 'user',
+                    registeredDate: new Date().toISOString()
+                };
+                
+                // Check if user already exists
+                if (localStorage.getItem('registeredUser_' + email)) {
+                    alert('❌ Registration failed!\n\nAn account with this email already exists.');
+                    registerBtn.disabled = false;
+                    registerBtn.textContent = 'Create Account';
+                    return;
+                }
+                
+                // Store user data
+                localStorage.setItem('registeredUser_' + email, JSON.stringify(userData));
+                
+                // Success message
+                alert('✅ Registration Successful! (Demo Mode)\n\nYour account has been created.\nYou can now login with your credentials.');
+                
+                // Redirect to login
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documents Center - Thailand eVisa Portal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .top-bar { background: #1a1a2e; color: white; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo-section { display: flex; align-items: center; gap: 15px; }
+        .flag { width: 50px; height: 35px; background: linear-gradient(to bottom, #ff0000 0%, #ff0000 33%, #ffffff 33%, #ffffff 66%, #0000ff 66%, #0000ff 100%); border-radius: 3px; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a { color: white; text-decoration: none; padding: 8px 15px; border-radius: 5px; }
+        .sidebar { position: fixed; left: 0; top: 55px; width: 250px; height: calc(100vh - 55px); background: white; box-shadow: 2px 0 10px rgba(0,0,0,0.1); overflow-y: auto; }
+        .sidebar-menu { list-style: none; padding: 20px 0; }
+        .sidebar-menu li { padding: 15px 25px; cursor: pointer; transition: all 0.3s; border-left: 4px solid transparent; }
+        .sidebar-menu li:hover, .sidebar-menu li.active { background: #f0f0f0; border-left-color: #667eea; }
+        .sidebar-menu li a { color: #333; text-decoration: none; display: block; }
+        .main-content { margin-left: 250px; padding: 30px; }
+        .container { background: white; border-radius: 10px; padding: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin: 20px 0; }
+        .doc-card { background: #f8f9fa; padding: 20px; border-radius: 10px; text-align: center; cursor: pointer; transition: all 0.3s; border: 2px solid transparent; }
+        .doc-card:hover { border-color: #667eea; transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .doc-icon { font-size: 50px; margin-bottom: 15px; }
+        .doc-card h3 { margin-bottom: 10px; color: #333; }
+        .doc-card p { color: #666; font-size: 14px; }
+        .btn-download { background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; margin-top: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="logo-section"><div class="flag"></div><h2>Thailand eVisa Portal</h2></div>
+        <div class="nav-links"><a href="user-dashboard.html">Dashboard</a><a href="user-profile.html">Profile</a><a href="login.html">Logout</a></div>
+    </div>
+    <div class="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="user-dashboard.html">📊 My Dashboard</a></li>
+            <li><a href="manage-applications.html">📋 Manage Applications</a></li>
+            <li><a href="payment-history.html">💳 Payment History</a></li>
+            <li><a href="document-upload.html">📁 Document Upload</a></li>
+            <li><a href="appointment-booking.html">📅 Appointment Booking</a></li>
+            <li><a href="track-application.html">🔍 Track Application</a></li>
+            <li><a href="portal-updates.html">📢 Portal Updates</a></li>
+            <li class="active"><a href="documents-center.html">📚 Documents Center</a></li>
+            <li><a href="help-center.html">❓ Help Center</a></li>
+            <li><a href="user-profile.html">⚙️ Profile Settings</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="container">
+            <h2>Documents & Resources Center</h2>
+            <p style="margin: 15px 0; color: #666;">Download forms, guides, and important documents</p>
+            <div class="doc-grid">
+                <div class="doc-card">
+                    <div class="doc-icon">📄</div>
+                    <h3>Visa Application Form</h3>
+                    <p>Official Thailand visa application form</p>
+                    <button class="btn-download">Download PDF</button>
+                </div>
+                <div class="doc-card">
+                    <div class="doc-icon">📋</div>
+                    <h3>Document Checklist</h3>
+                    <p>Complete list of required documents</p>
+                    <button class="btn-download">Download PDF</button>
+                </div>
+                <div class="doc-card">
+                    <div class="doc-icon">📖</div>
+                    <h3>User Guide</h3>
+                    <p>Step-by-step application guide</p>
+                    <button class="btn-download">Download PDF</button>
+                </div>
+                <div class="doc-card">
+                    <div class="doc-icon">🏨</div>
+                    <h3>Hotel Booking Template</h3>
+                    <p>Sample hotel confirmation format</p>
+                    <button class="btn-download">Download PDF</button>
+                </div>
+                <div class="doc-card">
+                    <div class="doc-icon">✈️</div>
+                    <h3>Flight Itinerary Guide</h3>
+                    <p>How to prepare flight documents</p>
+                    <button class="btn-download">Download PDF</button>
+                </div>
+                <div class="doc-card">
+                    <div class="doc-icon">💼</div>
+                    <h3>Business Visa Requirements</h3>
+                    <p>Additional documents for business visa</p>
+                    <button class="btn-download">Download PDF</button>
+                </div>
+                <div class="doc-card">
+                    <div class="doc-icon">🎓</div>
+                    <h3>Student Visa Guide</h3>
+                    <p>Requirements for education visa</p>
+                    <button class="btn-download">Download PDF</button>
+                </div>
+                <div class="doc-card">
+                    <div class="doc-icon">❓</div>
+                    <h3>FAQs Document</h3>
+                    <p>Frequently asked questions</p>
+                    <button class="btn-download">Download PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+        if (!currentUser) window.location.href = 'login.html';
+    </script>
+</body>
+</html>
