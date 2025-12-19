@@ -472,7 +472,6 @@
             registerBtn.textContent = 'Creating Account...';
 
             try {
-                // Call backend API
                 const response = await fetch('http://localhost:5000/api/auth/register', {
                     method: 'POST',
                     headers: {
@@ -492,10 +491,7 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    // Success message
-                    alert('✅ Registration Successful!\n\nYour account has been created.\nYou can now login with your credentials.');
-
-                    // Redirect to login
+                    alert('✅ Registration Successful!\n\n📧 A verification email has been sent to ' + email + '.\n\nPlease check your inbox and click the verification link to activate your account.\n\nNote: You must verify your email before logging in.');
                     window.location.href = 'login.html';
                 } else {
                     alert('❌ Registration failed!\n\n' + data.message);
@@ -503,41 +499,31 @@
                     registerBtn.textContent = 'Create Account';
                 }
             } catch (error) {
-                console.error('Backend connection error, using fallback registration:', error);
-                
-                // Fallback to localStorage registration
-                const userData = {
-                    firstName,
-                    lastName,
-                    fullName: `${firstName} ${lastName}`,
-                    email,
-                    password, // In production, this should be hashed
-                    phone,
-                    nationality,
-                    dateOfBirth,
-                    passport,
-                    role: 'user',
-                    registeredDate: new Date().toISOString()
-                };
-                
-                // Check if user already exists
-                if (localStorage.getItem('registeredUser_' + email)) {
-                    alert('❌ Registration failed!\n\nAn account with this email already exists.');
-                    registerBtn.disabled = false;
-                    registerBtn.textContent = 'Create Account';
-                    return;
-                }
-                
-                // Store user data
-                localStorage.setItem('registeredUser_' + email, JSON.stringify(userData));
-                
-                // Success message
-                alert('✅ Registration Successful! (Demo Mode)\n\nYour account has been created.\nYou can now login with your credentials.');
-                
-                // Redirect to login
-                window.location.href = 'login.html';
+                console.error('Backend API connection error:', error);
+                alert('❌ Unable to connect to server\n\nPlease check your internet connection or contact support if the issue persists.');
+                registerBtn.disabled = false;
+                registerBtn.textContent = 'Create Account';
             }
         }
+    </script>
+
+    <!-- Smartsupp Live Chat Script -->
+    <script type="text/javascript">
+    var _smartsupp = _smartsupp || {};
+    _smartsupp.key = 'YOUR_SMARTSUPP_KEY_HERE';
+    _smartsupp.theme = 'dark';
+    _smartsupp.sitePlatform = 'thailand-evisa';
+    window.smartsupp||(function(d) {
+      var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+      s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+      c.type='text/javascript';c.charset='utf-8';c.async=true;
+      c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+    })(document);
+    smartsupp('theme:colors', {
+        primary: '#1E88E5',
+        banner: '#0A1929',
+        widget: '#1A2332'
+    });
     </script>
 </body>
 </html>
