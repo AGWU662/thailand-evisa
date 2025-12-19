@@ -337,6 +337,41 @@
             </div>
         </div>
 
+        <!-- User Management Panel -->
+        <div class="panel">
+            <div class="panel-header">
+                <div class="panel-title">👥 User Management</div>
+                <div class="search-filter">
+                    <input type="text" class="search-input" placeholder="🔍 Search users..." id="userSearchInput" oninput="filterUsers()">
+                    <select class="filter-select" id="roleFilter" onchange="filterUsers()">
+                        <option value="">All Roles</option>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                        <option value="manager">Manager</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="applications-table" id="usersTable">
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Registered</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersBody">
+                        <!-- Users will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <div class="panel">
             <div class="panel-header">
                 <div class="panel-title">📊 All Visa Applications</div>
@@ -380,6 +415,70 @@
         if (localStorage.getItem('isLoggedIn') !== 'true' || localStorage.getItem('userRole') !== 'admin') {
             alert('⚠️ Access Denied! Admin privileges required.');
             window.location.href = 'login.html';
+        }
+
+        // Sample users data
+        let users = [
+            { id: 'U001', fullName: 'Samuel Okorie', email: 'samuel.okorie@email.com', role: 'user', status: 'Active', registered: '05 Jan 2025' },
+            { id: 'U002', fullName: 'Aisha Bello', email: 'aisha.bello@email.com', role: 'user', status: 'Active', registered: '08 Jan 2025' },
+            { id: 'U003', fullName: 'Musa Abdullahi', email: 'musa.abdullahi@email.com', role: 'user', status: 'Active', registered: '10 Jan 2025' },
+            { id: 'U004', fullName: 'Linda Chen', email: 'linda.chen@email.com', role: 'user', status: 'Active', registered: '12 Jan 2025' }
+        ];
+
+        function loadUsers() {
+            const tbody = document.getElementById('usersBody');
+            tbody.innerHTML = '';
+
+            users.forEach((user, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${user.id}</strong></td>
+                    <td>${user.fullName}</td>
+                    <td>${user.email}</td>
+                    <td><span class="status-badge status-${user.role === 'admin' ? 'approved' : 'pending'}">${user.role.toUpperCase()}</span></td>
+                    <td><span class="status-badge status-${user.status === 'Active' ? 'approved' : 'rejected'}">${user.status}</span></td>
+                    <td>${user.registered}</td>
+                    <td>
+                        <button class="btn-view" onclick="editUser('${user.id}')">✏️ Edit</button>
+                        <button class="btn-view" onclick="viewUserDashboard('${user.email}')">👁️ Dashboard</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function editUser(userId) {
+            const user = users.find(u => u.id === userId);
+            if (user) {
+                const newRole = prompt(`Edit user role for ${user.fullName}:\n\nCurrent Role: ${user.role}\n\nEnter new role (user/admin/manager):`, user.role);
+                if (newRole && ['user', 'admin', 'manager'].includes(newRole.toLowerCase())) {
+                    user.role = newRole.toLowerCase();
+                    alert(`✅ User role updated successfully!\n\n${user.fullName} is now: ${user.role}`);
+                    loadUsers();
+                } else if (newRole) {
+                    alert('❌ Invalid role. Please enter: user, admin, or manager');
+                }
+            }
+        }
+
+        function viewUserDashboard(email) {
+            alert(`📊 Viewing dashboard for: ${email}\n\nThis would open the user's dashboard view in a production environment.`);
+        }
+
+        function filterUsers() {
+            const searchTerm = document.getElementById('userSearchInput').value.toLowerCase();
+            const roleFilter = document.getElementById('roleFilter').value;
+            
+            const rows = document.querySelectorAll('#usersBody tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                const roleCell = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+                
+                const matchesSearch = text.includes(searchTerm);
+                const matchesRole = !roleFilter || roleCell.includes(roleFilter);
+                
+                row.style.display = matchesSearch && matchesRole ? '' : 'none';
+            });
         }
 
         // Sample applications data
@@ -501,7 +600,27 @@
             }
         }
 
+        loadUsers();
         loadApplications();
+    </script>
+
+    <!-- Smartsupp Live Chat Script -->
+    <script type="text/javascript">
+    var _smartsupp = _smartsupp || {};
+    _smartsupp.key = 'YOUR_SMARTSUPP_KEY_HERE';
+    _smartsupp.theme = 'dark';
+    _smartsupp.sitePlatform = 'thailand-evisa';
+    window.smartsupp||(function(d) {
+      var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+      s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+      c.type='text/javascript';c.charset='utf-8';c.async=true;
+      c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+    })(document);
+    smartsupp('theme:colors', {
+        primary: '#1E88E5',
+        banner: '#0A1929',
+        widget: '#1A2332'
+    });
     </script>
 </body>
 </html>

@@ -371,7 +371,6 @@
             loginBtn.textContent = 'Logging in...';
 
             try {
-                // Try backend API first
                 const response = await fetch('http://localhost:5000/api/auth/login', {
                     method: 'POST',
                     headers: {
@@ -383,6 +382,14 @@
                 const data = await response.json();
 
                 if (data.success) {
+                    // Check if email is verified
+                    if (data.data.user.emailVerified === false) {
+                        alert('❌ Email Not Verified\n\nPlease verify your email address before logging in. Check your inbox for the verification link.');
+                        loginBtn.disabled = false;
+                        loginBtn.textContent = 'Login';
+                        return;
+                    }
+
                     // Store user session
                     localStorage.setItem('token', data.data.token);
                     localStorage.setItem('user', JSON.stringify(data.data.user));
@@ -414,47 +421,10 @@
                     loginBtn.textContent = 'Login';
                 }
             } catch (error) {
-                console.error('Backend connection error, using fallback authentication:', error);
-                
-                // Fallback to localStorage authentication
-                const storedUser = localStorage.getItem('registeredUser_' + email);
-                
-                if (storedUser) {
-                    const userData = JSON.parse(storedUser);
-                    
-                    if (userData.password === password) {
-                        // Store user session
-                        localStorage.setItem('userEmail', email);
-                        localStorage.setItem('userRole', userData.role || 'user');
-                        localStorage.setItem('isLoggedIn', 'true');
-                        localStorage.setItem('currentUser', JSON.stringify({
-                            email: email,
-                            fullName: userData.fullName || (userData.firstName + ' ' + userData.lastName),
-                            role: userData.role || 'user'
-                        }));
-                        
-                        if (remember) {
-                            localStorage.setItem('rememberMe', 'true');
-                        }
-
-                        alert('✅ Login successful! (Demo Mode)\n\nWelcome to Thai eVisa Portal');
-
-                        // Redirect based on role
-                        if (selectedRole === 'admin') {
-                            window.location.href = 'admin-dashboard.html';
-                        } else {
-                            window.location.href = 'user-dashboard.html';
-                        }
-                    } else {
-                        alert('❌ Login failed!\n\nIncorrect password. Please try again.');
-                        loginBtn.disabled = false;
-                        loginBtn.textContent = 'Login';
-                    }
-                } else {
-                    alert('❌ Login failed!\n\nAccount not found. Please register first.\n\n(Backend server is offline - using demo mode)');
-                    loginBtn.disabled = false;
-                    loginBtn.textContent = 'Login';
-                }
+                console.error('Backend API connection error:', error);
+                alert('❌ Unable to connect to server\n\nPlease check your internet connection or contact support if the issue persists.');
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Login';
             }
         }
 
@@ -468,8 +438,24 @@
             }
         }
     </script>
-    
-    <!-- Customer Support Integration -->
-    <script src="chat-support.js"></script>
+
+    <!-- Smartsupp Live Chat Script -->
+    <script type="text/javascript">
+    var _smartsupp = _smartsupp || {};
+    _smartsupp.key = 'YOUR_SMARTSUPP_KEY_HERE';
+    _smartsupp.theme = 'dark';
+    _smartsupp.sitePlatform = 'thailand-evisa';
+    window.smartsupp||(function(d) {
+      var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+      s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+      c.type='text/javascript';c.charset='utf-8';c.async=true;
+      c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+    })(document);
+    smartsupp('theme:colors', {
+        primary: '#1E88E5',
+        banner: '#0A1929',
+        widget: '#1A2332'
+    });
+    </script>
 </body>
 </html>
