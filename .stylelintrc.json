@@ -9,6 +9,7 @@
     "font-family-no-missing-generic-family-keyword": null,
     "selector-class-pattern": null,
     "alpha-value-notation": "number",
-    "color-function-notation": "legacy"
+    "color-function-notation": null,
+    "color-function-alias-notation": null
   }
 }
