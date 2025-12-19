@@ -1,7 +1,20 @@
 /**
  * Thailand E-Visa Portal - Customer Support Integration
  * This file provides multiple customer support options including live chat and WhatsApp
+ * 
+ * CONFIGURATION REQUIRED BEFORE PRODUCTION:
+ * 1. Update WHATSAPP_NUMBER with your business WhatsApp number
+ * 2. Update SUPPORT_EMAIL with your actual support email
+ * 3. Update SUPPORT_PHONE with your actual support phone number
+ * 4. Uncomment and configure Tawk.to integration if you want live agent chat
  */
+
+// ==================== CONFIGURATION ====================
+// TODO: Replace these placeholder values with real contact information
+const WHATSAPP_NUMBER = '66123456789'; // Replace with your WhatsApp Business number (format: country code + number)
+const SUPPORT_EMAIL = 'support@thailand-evisa.com'; // Replace with your actual support email
+const SUPPORT_PHONE = '+66123456789'; // Replace with your actual support phone number
+// =======================================================
 
 // Initialize Tawk.to Live Chat Widget (Free)
 // Replace 'YOUR_PROPERTY_ID' and 'YOUR_WIDGET_ID' with actual values from https://tawk.to
@@ -28,7 +41,7 @@ function createWhatsAppButton() {
     const whatsappBtn = document.createElement('div');
     whatsappBtn.id = 'whatsapp-support-btn';
     whatsappBtn.innerHTML = `
-        <a href="https://wa.me/66123456789?text=Hello, I need help with my Thailand e-visa application" 
+        <a href="https://wa.me/${WHATSAPP_NUMBER}?text=Hello, I need help with my Thailand e-visa application" 
            target="_blank" 
            rel="noopener noreferrer"
            title="Chat with us on WhatsApp"
@@ -212,10 +225,10 @@ function createChatModal() {
                 <div class="contact-options">
                     <p>Need immediate assistance?</p>
                     <div class="contact-buttons">
-                        <a href="mailto:support@thailand-evisa.com" class="contact-btn email">
+                        <a href="mailto:${SUPPORT_EMAIL}" class="contact-btn email">
                             <i class="fas fa-envelope"></i> Email Us
                         </a>
-                        <a href="tel:+66123456789" class="contact-btn phone">
+                        <a href="tel:${SUPPORT_PHONE}" class="contact-btn phone">
                             <i class="fas fa-phone"></i> Call Us
                         </a>
                     </div>
@@ -474,7 +487,7 @@ function selectQuery(queryType) {
         },
         'payment-issue': {
             title: 'Payment Support',
-            message: 'We accept credit cards, debit cards, and cryptocurrency. If you\'re experiencing payment issues, please email us at support@thailand-evisa.com',
+            message: `We accept credit cards, debit cards, and cryptocurrency. If you're experiencing payment issues, please email us at ${SUPPORT_EMAIL}`,
             link: 'payment-gateway.html'
         },
         'document-upload': {
