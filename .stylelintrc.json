@@ -1,0 +1,17 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "indentation": 4,
+    "string-quotes": "single",
+    "color-hex-case": "lower",
+    "color-hex-length": "short",
+    "selector-max-id": 3,
+    "selector-max-type": 3,
+    "declaration-no-important": null,
+    "no-descending-specificity": null,
+    "font-family-no-missing-generic-family-keyword": null,
+    "selector-class-pattern": null,
+    "alpha-value-notation": "number",
+    "color-function-notation": "legacy"
+  }
+}
