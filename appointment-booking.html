@@ -171,7 +171,7 @@
                 <div style="font-weight: bold;">Thu</div>
                 <div style="font-weight: bold;">Fri</div>
                 <div style="font-weight: bold;">Sat</div>
-                ${Array.from({length: 28}, (_, i) => `<div class="calendar-day" onclick="selectDay(this)">${i + 1}</div>`).join('')}
+                ${Array.from({length: 28}, (_, i) =&gt; `&lt;div class="calendar-day" onclick="selectDay(this)"&gt;${i + 1}&lt;/div&gt;`).join('')}
             </div>
 
             <h3 style="margin-top: 30px;">Select Time Slot</h3>

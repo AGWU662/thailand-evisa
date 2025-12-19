@@ -16,8 +16,8 @@ function sanitizeInput(input) {
         '<': '&lt;',
         '>': '&gt;',
         '"': '&quot;',
-        "'": '&#x27;',
-        "/": '&#x2F;',
+        '\'': '&#x27;',
+        '/': '&#x2F;',
     };
     
     return input.replace(/[&<>"'/]/g, (char) => map[char]);
@@ -81,7 +81,7 @@ function validateEmail(email) {
  * Validate phone number (international format)
  */
 function validatePhone(phone) {
-    const regex = /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/;
+    const regex = /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/;
     return regex.test(phone);
 }
 

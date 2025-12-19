@@ -25,6 +25,11 @@
     "fetch": "readonly",
     "FormData": "readonly",
     "smartsupp": "writable",
-    "_smartsupp": "writable"
+    "_smartsupp": "writable",
+    "require": "readonly",
+    "module": "readonly",
+    "exports": "readonly",
+    "process": "readonly",
+    "__dirname": "readonly"
   }
 }
